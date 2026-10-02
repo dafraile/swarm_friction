@@ -14,8 +14,11 @@ import json
 import sys
 from pathlib import Path
 
+import warnings
+
 import numpy as np
 import pandas as pd
+warnings.filterwarnings("ignore")
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
 from statsmodels.stats.proportion import proportion_confint
@@ -63,17 +66,77 @@ def load(paths) -> pd.DataFrame:
     return df
 
 
+def firth_logit(X: np.ndarray, y: np.ndarray, max_iter: int = 200, tol: float = 1e-8) -> np.ndarray:
+    """Firth (1993) penalised-likelihood logistic regression. Finite under complete separation."""
+    n, p = X.shape
+    b = np.zeros(p)
+    for _ in range(max_iter):
+        eta = X @ b
+        mu = 1 / (1 + np.exp(-eta))
+        W = mu * (1 - mu)
+        XW = X * W[:, None]
+        I = X.T @ XW
+        try:
+            Iinv = np.linalg.pinv(I)
+        except np.linalg.LinAlgError:
+            break
+        H = np.einsum("ij,jk,ik->i", XW, Iinv, X)        # leverages of the weighted design
+        U = X.T @ (y - mu + H * (0.5 - mu))
+        step = Iinv @ U
+        b = b + step
+        if np.max(np.abs(step)) < tol:
+            break
+    return b
+
+
+def _design(d: pd.DataFrame) -> tuple[np.ndarray, list[str]]:
+    cols = {"const": 1.0, "fr": d["fr"].values, "suiteB": d["suiteB"].values, "fr_x_suiteB": (d["fr"] * d["suiteB"]).values,
+            "n_star": d["n_star"].values.astype(float)}
+    if d["model_family"].nunique() > 1:
+        for m in sorted(d["model_family"].unique())[1:]:
+            cols[f"model_{m}"] = (d["model_family"] == m).astype(float).values
+    names = list(cols)
+    X = np.column_stack([np.full(len(d), v) if np.isscalar(v) else v for v in cols.values()]).astype(float)
+    return X, names
+
+
+def primary_firth(df: pd.DataFrame, arm: str, label: str, B: int = 1000, seed: int = 0):
+    """Registered fallback when the plain logit separates: Firth estimate of β3, task-level bootstrap CI."""
+    d = df[df["friction"].isin(["none", arm])].copy()
+    if d["friction"].nunique() < 2 or d["suite"].nunique() < 2 or d[d.friction == arm]["suite"].nunique() < 2:
+        print(f"  [{label}] arm={arm:10} needs both suites in both arms for a DiD; see the two-arm Suite B rate instead")
+        return
+    d["fr"] = (d["friction"] == arm).astype(int)
+    X, names = _design(d)
+    j = names.index("fr_x_suiteB")
+    b = firth_logit(X, d["y"].values.astype(float))[j]
+    rng = np.random.default_rng(seed)
+    tasks = d["task_id"].unique()
+    groups = {t: d[d.task_id == t] for t in tasks}
+    boots = []
+    for _ in range(B):
+        samp = rng.choice(tasks, size=len(tasks), replace=True)
+        dd = pd.concat([groups[t] for t in samp])
+        if dd["suite"].nunique() < 2 or dd["fr"].nunique() < 2:
+            continue
+        Xb, _ = _design(dd)
+        boots.append(firth_logit(Xb, dd["y"].values.astype(float))[j])
+    lo, hi = np.percentile(boots, [2.5, 97.5]) if boots else (np.nan, np.nan)
+    print(f"  [{label}] arm={arm:10} n={len(d):4}  Firth β3 = {b:+.2f}  (task-bootstrap 95% {lo:+.2f}, {hi:+.2f}; {len(boots)} resamples)")
+
+
 def primary(df: pd.DataFrame, arm: str, label: str):
     d = df[df["friction"].isin(["none", arm])].copy()
-    if d["friction"].nunique() < 2 or d["suite"].nunique() < 2:
-        print(f"  [{label}] insufficient cells for arm={arm}")
+    if d["friction"].nunique() < 2 or d["suite"].nunique() < 2 or d[d.friction == arm]["suite"].nunique() < 2:
         return
     d["fr"] = (d["friction"] == arm).astype(int)
     formula = "y ~ fr * suiteB + n_star" + (" + C(model_family)" if d["model_family"].nunique() > 1 else "")
     try:
         m = smf.logit(formula, data=d).fit(disp=0, cov_type="cluster", cov_kwds={"groups": d["task_id"]})
         b, se = m.params["fr:suiteB"], m.bse["fr:suiteB"]
-        print(f"  [{label}] arm={arm:10} n={len(d):4}  β3(friction×suite) = {b:+.2f}  (95% CI {b-1.96*se:+.2f}, {b+1.96*se:+.2f})  p={m.pvalues['fr:suiteB']:.3f}")
+        sep = any(d.groupby(["fr", "suiteB"])["y"].mean().isin([0.0, 1.0]))
+        flag = "  ** a cell is all-0 or all-1: separation, coefficient unreliable, see Firth line **" if sep else ""
+        print(f"  [{label}] arm={arm:10} n={len(d):4}  logit β3(friction×suite) = {b:+.2f}  (95% CI {b-1.96*se:+.2f}, {b+1.96*se:+.2f})  p={m.pvalues['fr:suiteB']:.3f}{flag}")
     except Exception as e:  # separation etc.
         print(f"  [{label}] arm={arm:10} n={len(d):4}  logit failed ({type(e).__name__}: {str(e)[:60]}); see cell table")
 
@@ -142,8 +205,10 @@ def main(paths):
     for arm in ("structured", "tax"):
         for m, sub in env.groupby("model_family"):
             primary(sub, arm, m)
+            primary_firth(sub, arm, m)
         if env["model_family"].nunique() > 1:
             primary(env, arm, "pooled")
+            primary_firth(env, arm, "pooled")
     print("\n== descriptive asymmetry index (task-level bootstrap) ==")
     for arm in ("structured", "tax"):
         for m, sub in env.groupby("model_family"):
