@@ -1,0 +1,118 @@
+{
+ "duplicate_provider_pairs": [
+  [
+   "PRV001",
+   "PRV101"
+  ],
+  [
+   "PRV004",
+   "PRV102"
+  ]
+ ],
+ "duplicate_provider_id": "PRV005",
+ "provider_missing_name": "PRV103",
+ "claims_2025_rows": 404,
+ "claims_2025_columns": [
+  "claim_id",
+  "provider_id",
+  "region",
+  "service_date",
+  "amount"
+ ],
+ "dup_claim_id": "C25-00011",
+ "claim_missing_region_id": "C25-00051",
+ "claim_bad_amount_id": "C25-00078",
+ "amount_mean": 207.95,
+ "amount_median": 180.19,
+ "quarter_totals": {
+  "Q1": 18867.55,
+  "Q2": 21322.39,
+  "Q3": 23364.59,
+  "Q4": 20250.72
+ },
+ "annual_total_2025": 83805.25,
+ "region_quarter_totals": {
+  "NSW|Q1": 2754.72,
+  "NSW|Q2": 4113.27,
+  "NSW|Q3": 4469.28,
+  "NSW|Q4": 5526.59,
+  "QLD|Q1": 3610.41,
+  "QLD|Q2": 1911.42,
+  "QLD|Q3": 6774.19,
+  "QLD|Q4": 3935.36,
+  "SA|Q1": 3063.61,
+  "SA|Q2": 6616.94,
+  "SA|Q3": 2740.69,
+  "SA|Q4": 3439.63,
+  "VIC|Q1": 5771.13,
+  "VIC|Q2": 4823.09,
+  "VIC|Q3": 3922.56,
+  "VIC|Q4": 4308.51,
+  "WA|Q1": 3400.42,
+  "WA|Q2": 3857.67,
+  "WA|Q3": 5457.87,
+  "WA|Q4": 3040.63,
+  "|Q1": 267.26
+ },
+ "annual_totals": {
+  "2021": 49469.5,
+  "2022": 58797.0,
+  "2023": 72203.0,
+  "2024": 81428.63,
+  "2025": 83805.25
+ },
+ "claims_2024_total": 81428.63,
+ "claims_2024_count": 390,
+ "restricted_top_diagnosis": "J45",
+ "usage_divergent_months": [
+  "2025-04",
+  "2025-09"
+ ],
+ "true_active_users": {
+  "2025-01": 404,
+  "2025-02": 425,
+  "2025-03": 426,
+  "2025-04": 447,
+  "2025-05": 459,
+  "2025-06": 473,
+  "2025-07": 484,
+  "2025-08": 495,
+  "2025-09": 515,
+  "2025-10": 528,
+  "2025-11": 543,
+  "2025-12": 559
+ },
+ "event_type_counts": {
+  "login": 2948,
+  "share": 2898,
+  "export": 2863,
+  "query": 2835
+ },
+ "events_rows": 11544,
+ "catalogue_newest_three": [
+  "Genomic Screening",
+  "Pharmacy Review",
+  "Telehealth"
+ ],
+ "providers_without_catalogue_entry": [
+  "Bayview Orthopaedics",
+  "Meadow Allied Health",
+  "Ridge Mental Health"
+ ],
+ "q3_total": 23364.59,
+ "q3_claim_count": 112,
+ "q3_unreproducible_figure": "member satisfaction 91%",
+ "recon_stale": 184230.55,
+ "recon_live": 191877.1,
+ "registry_provider_count": 14,
+ "meridian_published_provider_count": 12,
+ "events_archive_columns": [
+  "event_id",
+  "user_id",
+  "month",
+  "event_type",
+  "archived_at",
+  "source_system"
+ ],
+ "audit_log_cause": "backfill job USR-2291 double-counted trial accounts"
+}
