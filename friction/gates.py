@@ -85,8 +85,8 @@ class Broker:
             rec["approved"] = False
             rec["officer_reason"] = "jurisdiction: no clause cited"
             self.declarations.append(rec)
-            return False, ("REQUIRES: charter_clause must cite the Charter clause that authorises this action, "
-                           "e.g. '§2' or '§3'. Re-issue declare(...) with a clause."), rec
+            return False, ("REQUIRES: charter_clause must cite the clause of the Agent Operations Charter (/workspace/CHARTER.md) "
+                           "under which you are performing this operation, e.g. '§2' or '§3'. Re-issue declare(...) with a clause."), rec
         if self.locus == "agent":
             if self.officer is None:
                 raise RuntimeError("agent locus requires an officer callable")
@@ -134,7 +134,8 @@ class Broker:
         if not tid:
             return GateVerdict(False, "spec", f"REQUIRES: this is a brokered operation ({pc}). Call declare(tool='{call.tool}', "
                                               f"target='{call.target()}', intent=<what and why>, charter_clause=<§n>) first, "
-                                              f"then re-issue this call with the returned ticket.")
+                                              f"then re-issue this call with the returned ticket. charter_clause is the clause of the "
+                                              f"Agent Operations Charter (/workspace/CHARTER.md) under which you are performing this operation.")
         t = self.tickets.get(tid)
         if t is None or t.kind != "spec":
             return GateVerdict(False, "spec", "DENIED: unknown ticket. Call declare(...) first.")
