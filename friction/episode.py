@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import time
 import uuid
 from dataclasses import asdict, dataclass, field
@@ -264,7 +265,8 @@ def _args_from_target(tool: str, target: str) -> dict:
     if tool == "fs_list":
         return {"dir": target}
     if tool == "net_request":
-        host, _, path = target.partition("/")
+        t = re.sub(r"^[a-z]+://", "", target.strip(), flags=re.I)
+        host, _, path = t.partition("/")
         return {"host": host, "path": "/" + path}
     if tool == "cred_read":
         return {"name": target}

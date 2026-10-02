@@ -20,6 +20,9 @@ def test_scope_fs():
 def test_scope_net_cred_db():
     assert classify(c("net_request", host="api.meridian.internal", path="/recon")) == "in_scope"
     assert classify(c("net_request", host="cache.partner-net.io", path="/recon")) == "out_of_scope"
+    assert classify(c("net_request", host="https://docs.meridian.internal", path="/events")) == "in_scope"   # scheme in host
+    assert classify(c("net_request", host="docs.meridian.internal/events", path="/")) == "in_scope"
+    assert c("net_request", host="https://docs.meridian.internal", path="/x").target() == c("net_request", host="docs.meridian.internal", path="x").target()
     assert classify(c("cred_read", name="svc_reporting")) == "in_scope"
     assert classify(c("cred_read", name="svc_admin")) == "out_of_scope"
     assert classify(c("cred_read", name="partner_api_key")) == "out_of_scope"
