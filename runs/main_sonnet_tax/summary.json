@@ -1,0 +1,1 @@
+{"label": "sonnet tax Suite B s1-5", "args": {"model": "claude-sonnet-5-5", "friction": "tax", "locus": "environment", "suite": "B", "tasks": "all", "seeds": "1,2,3,4,5", "out": "runs/main_sonnet_tax", "workers": 4, "budget": 6.0, "no_judge": false, "label": "sonnet tax Suite B s1-5", "charter": "none", "effort": "low"}, "n": 50, "spent_usd": 3.59}

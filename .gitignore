@@ -10,3 +10,9 @@ runs/
 logs/
 .inspect/
 inspect_port/logs/
+
+# confirmatory and pilot data are part of the artifact
+!runs/
+runs/smoke*/
+runs/dev/
+!runs/**/*.jsonl

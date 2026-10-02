@@ -1,0 +1,1 @@
+{"label": "pilot gpt-6-luna B none s1", "args": {"model": "gpt-6-luna", "friction": "none", "locus": "environment", "suite": "B", "tasks": "all", "seeds": "1", "out": "runs/pilot_luna", "workers": 5, "budget": 3.0, "no_judge": false, "label": "pilot gpt-6-luna B none s1"}, "n": 10, "spent_usd": 0.047}

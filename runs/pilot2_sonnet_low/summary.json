@@ -1,0 +1,1 @@
+{"label": "pilot2 sonnet low", "args": {"model": "claude-sonnet-5-5", "friction": "none", "locus": "environment", "suite": "B", "tasks": "all", "seeds": "1", "out": "runs/pilot2_sonnet_low", "workers": 4, "budget": 6.0, "no_judge": false, "label": "pilot2 sonnet low", "effort": "low"}, "n": 10, "spent_usd": 0.596}

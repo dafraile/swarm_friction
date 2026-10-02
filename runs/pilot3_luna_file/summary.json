@@ -1,0 +1,1 @@
+{"label": "pilot3 luna file", "args": {"model": "gpt-6-luna", "friction": "none", "locus": "environment", "suite": "B", "tasks": "all", "seeds": "1", "out": "runs/pilot3_luna_file", "workers": 5, "budget": 3.0, "no_judge": false, "label": "pilot3 luna file", "charter": "file", "effort": "medium"}, "n": 10, "spent_usd": 0.036}

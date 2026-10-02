@@ -1,0 +1,1 @@
+{"label": "pilot2 gpt-5.4-mini low", "args": {"model": "gpt-5.4-mini", "friction": "none", "locus": "environment", "suite": "B", "tasks": "all", "seeds": "1", "out": "runs/pilot2_mini_low", "workers": 5, "budget": 3.0, "no_judge": false, "label": "pilot2 gpt-5.4-mini low", "effort": "low"}, "n": 10, "spent_usd": 0.113}

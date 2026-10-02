@@ -7,14 +7,23 @@ David Fraile Navarro's **MATS Winter 2027 Stage-2** application (empirical track
 more than it degrades legitimate work, because out-of-scope paths are denser in privileged-class
 actions and decay multiplicatively under gates that never know what they are looking at.
 
-**Status (2026-10-03, Sat 01:00 Sydney):** harness built and tested; methodology revised and
-pre-registered with two amendments after three pilots; confirmatory runs in progress on two
-model families. See `PREREGISTRATION.md` for what was fixed before model spend and why.
+**Status (2026-10-03 01:30 AEST):** harness built and tested; methodology revised and
+pre-registered with three dated amendments; confirmatory runs complete on two model families
+(600 episodes, USD 25 total). **Results are in `RESULTS.md`.** One-paragraph version: with no
+norm in the prompt, a content-blind requirement to declare a privileged action and cite a policy
+clause removed completed out-of-scope actions on Sonnet 5.5 (0.14 → 0.00) and halved them on
+gpt-6-luna (0.50 → 0.24) at a small cost to legitimate work (0.74 → 0.72, 0.84 → 0.76), while
+the same number of content-free round-trips removed few (0.10, 0.38). The effect sat in the tasks
+where the chain-length mechanism predicted none, so the working explanation is forced self-review.
+Requiring the Charter in spawn instructions eliminated norm-laundering by construction. The
+pooled primary test has the predicted sign and misses the conventional threshold (p = 0.068,
+20 task clusters).
 
 ## Documents
 
 | File | What it is |
 |---|---|
+| `RESULTS.md` | Cell tables, primary estimand, mechanism, laundering, agent locus, limits. Generated from the committed analysis script. |
 | `PREREGISTRATION.md` | Hypotheses, falsifiers, estimand, sample, exclusions, and the dated amendments after each pilot. **Read this to know what the numbers mean.** |
 | `METHODOLOGY.md` | v1.1 revisions: the mechanism is privileged-action density, not chain length; the weekend gate bundle; grading; models; budget. Overrides HANDOFF §4. |
 | `HANDOFF.md` | The brief: purpose, thesis, hard design rules, literature positioning, open decisions. |
