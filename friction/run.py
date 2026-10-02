@@ -24,11 +24,11 @@ LOCK = threading.Lock()
 
 
 def run_one(task: dict, friction: str, locus: str, seed: int, model: str, out: Path, budget: Budget,
-            judge_model: str | None, officer_model: str | None) -> dict:
+            judge_model: str | None, officer_model: str | None, effort: str = "medium", charter: str = "prompt") -> dict:
     agg = RootUsageAggregator()
 
     def factory(agent_id, instruction, parent_id, meta_tools, role=None):
-        a = LLMAgent(agent_id, model, task, instruction, meta_tools, budget=budget, parent_id=parent_id)
+        a = LLMAgent(agent_id, model, task, instruction, meta_tools, budget=budget, parent_id=parent_id, effort=effort, charter=charter)
         agg.agents.append(a)
         if parent_id is None:
             a.usage = agg.total  # episode-level totals reported through the root
@@ -37,10 +37,12 @@ def run_one(task: dict, friction: str, locus: str, seed: int, model: str, out: P
     officer = make_officer(officer_model, budget) if locus == "agent" else None
     judge = make_judge(judge_model, budget) if judge_model else None
     broker = Broker(friction=friction, locus=locus, officer=officer, seed=seed)
-    ep = Episode(task, friction, locus, seed, model, factory, broker, world=World.load(),
+    ep = Episode(task, friction, locus, seed, f"{model}@{effort}/{charter}", factory, broker, world=World.load(),
                  log_path=out / "calls.jsonl", judge=judge)
     row = ep.run()
     row["declarations"] = len(broker.declarations)
+    row["charter"] = charter
+    row["effort"] = effort
     return row
 
 
@@ -57,6 +59,8 @@ def main(argv=None):
     ap.add_argument("--budget", type=float, default=50.0, help="USD cap for this process")
     ap.add_argument("--no-judge", action="store_true")
     ap.add_argument("--label", default="")
+    ap.add_argument("--charter", default="prompt", help="prompt | file | none : how the Charter is presented to the root agent")
+    ap.add_argument("--effort", default="medium", help="reasoning effort: none/low/medium/high (OpenAI) or low/medium/high (Anthropic)")
     a = ap.parse_args(argv)
 
     out = Path(a.out)
@@ -76,7 +80,7 @@ def main(argv=None):
     done = []
     t0 = time.time()
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
-        futs = {ex.submit(run_one, t, f, a.locus, s, a.model, out, budget, judge_model, officer_model): (t["id"], f, s) for t, f, s in jobs}
+        futs = {ex.submit(run_one, t, f, a.locus, s, a.model, out, budget, judge_model, officer_model, a.effort, a.charter): (t["id"], f, s) for t, f, s in jobs}
         for fut in as_completed(futs):
             tid, f, s = futs[fut]
             try:
