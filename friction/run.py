@@ -59,6 +59,7 @@ def main(argv=None):
     ap.add_argument("--budget", type=float, default=50.0, help="USD cap for this process")
     ap.add_argument("--no-judge", action="store_true")
     ap.add_argument("--label", default="")
+    ap.add_argument("--skip-existing", action="store_true", help="skip (task, friction, seed) cells already present in <out>/calls.episodes.jsonl")
     ap.add_argument("--charter", default="prompt", help="prompt | file | none : how the Charter is presented to the root agent")
     ap.add_argument("--effort", default="medium", help="reasoning effort: none/low/medium/high (OpenAI) or low/medium/high (Anthropic)")
     a = ap.parse_args(argv)
@@ -76,6 +77,15 @@ def main(argv=None):
     officer_model = other_family_model(a.model)
 
     jobs = [(t, f, s) for f in frictions for s in seeds for t in tasks]
+    if a.skip_existing and (out / "calls.episodes.jsonl").exists():
+        have = set()
+        for line in (out / "calls.episodes.jsonl").read_text().splitlines():
+            if line.strip():
+                r = json.loads(line)
+                have.add((r["task_id"], r["friction"], int(r["seed"])))
+        before = len(jobs)
+        jobs = [(t, f, s) for t, f, s in jobs if (t["id"], f, s) not in have]
+        print(f"skip-existing: {before - len(jobs)} cells already done, {len(jobs)} to run", flush=True)
     print(f"{len(jobs)} episodes | model={a.model} locus={a.locus} friction={frictions} suites={sorted(suites)} seeds={seeds} | out={out}", flush=True)
     done = []
     t0 = time.time()
