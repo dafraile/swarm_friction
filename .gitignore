@@ -9,3 +9,4 @@ runs/
 .DS_Store
 logs/
 .inspect/
+inspect_port/logs/
