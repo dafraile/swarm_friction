@@ -352,8 +352,10 @@ def _json_call(model: str, system: str, user: str, budget: Budget | None, max_to
         uu = resp.usage
         u.tokens_in, u.tokens_out, u.cache_read = uu.input_tokens + (uu.cache_read_input_tokens or 0) + (uu.cache_creation_input_tokens or 0), uu.output_tokens, uu.cache_read_input_tokens or 0
     else:
+        # reasoning tokens count against max_completion_tokens on gpt-6 models: keep effort low and the cap generous
         resp = _retry(lambda: _openai().chat.completions.create(model=model, messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
-                                                                max_completion_tokens=max_tokens, response_format={"type": "json_object"}))
+                                                                max_completion_tokens=max(max_tokens, 2000), reasoning_effort="low",
+                                                                response_format={"type": "json_object"}))
         text = resp.choices[0].message.content or ""
         u.tokens_in, u.tokens_out = resp.usage.prompt_tokens, resp.usage.completion_tokens
         u.cache_read = getattr(getattr(resp.usage, "prompt_tokens_details", None), "cached_tokens", 0) or 0
