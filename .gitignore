@@ -16,3 +16,5 @@ inspect_port/logs/
 runs/smoke*/
 runs/dev/
 !runs/**/*.jsonl
+data/ai_village/
+data/ai_village_cache/
