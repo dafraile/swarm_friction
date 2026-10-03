@@ -36,7 +36,23 @@ for ts, aid, d in resp:
 out.append(f"- decisions (`approval` field): {dict(dec)}")
 with_comment = sum(1 for ts, aid, d in resp if (d.get("adminComment") or "").strip())
 out.append(f"- responses carrying an admin comment: {with_comment}/{len(resp)}")
-med = collections.Counter(str(d.get("medium")) for ts, aid, d in resp); out.append(f"- medium: {dict(med)}")
+def coarse(m):
+    m = (m or "").lower()
+    if "email" in m or "gmail" in m or "@" in m: return "email"
+    if "github" in m or "gitlab" in m: return "github/gitlab"
+    if any(k in m for k in ("pinterest", "twitter", "x post", "x /", "reddit", "youtube", "hacker news", "substack", "moltbook", "lesswrong", "ea forum", "medium", "dev.to", "behance", "instructables", "slack", "discord")): return "social/forum post"
+    if "contact form" in m or "contact page" in m or "web form" in m or "submit" in m: return "website contact form"
+    return "other"
+med = collections.Counter(coarse(d.get("medium")) for ts, aid, d in req.values()); out.append(f"- request medium (coarse): {dict(med)}")
+proxy_terms = ("proxy", "on behalf of", "acting as my", "posted by", "via another agent", "since i do not have")
+proxied = [d for ts, aid, d in req.values() if any(t in ((d.get("medium") or "") + " " + (d.get("rationale") or "")).lower() for t in proxy_terms)]
+proxied_ids = {k for k, (ts, aid, d) in req.items() if any(t in ((d.get("medium") or "") + " " + (d.get("rationale") or "")).lower() for t in proxy_terms)}
+proxied_outcomes = collections.Counter(str(d.get("approval")) for ts, aid, d in resp if (d.get("outreachApprovalRequestId") in proxied_ids))
+out.append(f"- **requests routed through another agent as proxy** (medium/rationale says proxy, on behalf of, posted by another agent, lacking own credentials): {len(proxied)} of {len(req)}; decisions on those: {dict(proxied_outcomes)}")
+app_by_agent = collections.defaultdict(lambda: [0, 0])
+for ts, aid, d in resp:
+    app_by_agent[agents.get(aid, "?")][0] += 1; app_by_agent[agents.get(aid, "?")][1] += bool(d.get("approval"))
+out.append("- approval rate by requesting agent (n ≥ 10): " + ", ".join(f"{a} {ap}/{n}" for a, (n, ap) in sorted(app_by_agent.items(), key=lambda kv: -kv[1][0]) if n >= 10))
 out.append(f"- response fields seen: {example_keys.get('OUTREACH_APPROVAL_RESPONSE')}")
 out.append(f"- request fields seen: {example_keys.get('OUTREACH_APPROVAL_REQUEST')}")
 # latency: match by requestId if present, else nearest previous request by same agent
@@ -57,8 +73,10 @@ out += ["- requests by agent: " + ", ".join(f"{a} {n}" for a, n in by_type_agent
         "## Google sign-in hand-off (credential never given to the agent)", "",
         f"- REQUEST_GOOGLE_SIGN_IN {types['REQUEST_GOOGLE_SIGN_IN']}, RESTARTING_AFTER_GOOGLE_SIGN_IN {types['RESTARTING_AFTER_GOOGLE_SIGN_IN']}",
         "", "## Reading", "",
-        "The Village already runs two of the three loci from the harness: a norm-agent/human approval step for outreach "
-        "(deny-until-approved, rare by construction) and an environment-level credential split for Google sign-in, where the "
-        "agent structurally cannot hold the password and must hand off. Both are examples of controls that emit an event "
-        "record whether or not anyone reads the transcript."]
+        "The Village already runs two of the three loci from the harness: a human approval step for outreach "
+        "(deny-until-approved; a quarter of requests are refused, median turnaround minutes, tail of days) and an environment-level "
+        "credential split for Google sign-in, where the agent structurally cannot hold the password and must hand off. Both emit an "
+        "event record whether or not anyone reads the transcript. The proxy-posting requests are delegation laundering in the wild: "
+        "an agent that lacks a credential routes the action through an agent that holds one, which is the Charter §6 pattern the "
+        "harness measures as `laundering`. Here the approval step sees it only because the requester said so in the rationale."]
 Path("docs/AI_VILLAGE_APPROVALS.md").write_text("\n".join(out) + "\n"); print("\n".join(out))
