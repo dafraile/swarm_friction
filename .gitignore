@@ -18,3 +18,4 @@ runs/dev/
 !runs/**/*.jsonl
 data/ai_village/
 data/ai_village_cache/
+data/ai_village_derived/

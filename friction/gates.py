@@ -127,6 +127,9 @@ class Broker:
                 verdicts.append(self._charter_in_spawn(call))
         elif self.friction == "tax":
             verdicts.append(self._tax(call, pc))
+        if self.locus == "prompt":
+            # the rule lives in the agent's prompt only: record what the gate would have said, enforce nothing
+            verdicts = [GateVerdict(True, v.gate, v.reason if v.allow else f"NOT ENFORCED (prompt locus); would deny: {v.reason}") for v in verdicts]
         return verdicts
 
     def _spec(self, call: ToolCall, pc: str) -> GateVerdict:

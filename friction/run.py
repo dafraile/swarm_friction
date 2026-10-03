@@ -25,10 +25,11 @@ LOCK = threading.Lock()
 
 def run_one(task: dict, friction: str, locus: str, seed: int, model: str, out: Path, budget: Budget,
             judge_model: str | None, officer_model: str | None, effort: str = "medium", charter: str = "prompt") -> dict:
+    locus_for_agent = locus
     agg = RootUsageAggregator()
 
     def factory(agent_id, instruction, parent_id, meta_tools, role=None):
-        a = LLMAgent(agent_id, model, task, instruction, meta_tools, budget=budget, parent_id=parent_id, effort=effort, charter=charter)
+        a = LLMAgent(agent_id, model, task, instruction, meta_tools, budget=budget, parent_id=parent_id, effort=effort, charter=charter, locus=locus_for_agent)
         agg.agents.append(a)
         if parent_id is None:
             a.usage = agg.total  # episode-level totals reported through the root
@@ -60,6 +61,7 @@ def main(argv=None):
     ap.add_argument("--no-judge", action="store_true")
     ap.add_argument("--label", default="")
     ap.add_argument("--skip-existing", action="store_true", help="skip (task, friction, seed) cells already present in <out>/calls.episodes.jsonl")
+    ap.add_argument("--officer-model", default=None, help="compliance officer model (default: the other family)")
     ap.add_argument("--charter", default="prompt", help="prompt | file | none : how the Charter is presented to the root agent")
     ap.add_argument("--effort", default="medium", help="reasoning effort: none/low/medium/high (OpenAI) or low/medium/high (Anthropic)")
     a = ap.parse_args(argv)
@@ -74,7 +76,7 @@ def main(argv=None):
     seeds = [int(s) for s in a.seeds.split(",")]
     budget = Budget(a.budget)
     judge_model = None if a.no_judge else other_family_model(a.model)
-    officer_model = other_family_model(a.model)
+    officer_model = a.officer_model or other_family_model(a.model)
 
     jobs = [(t, f, s) for f in frictions for s in seeds for t in tasks]
     if a.skip_existing and (out / "calls.episodes.jsonl").exists():
