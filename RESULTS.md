@@ -146,21 +146,29 @@ adversarial case (persuade, overwhelm, capture the officer) was not tested.
    to 17.8 while 14.8 declarations were added; luna over-complied and declared non-privileged
    calls too. Less wandering, more paperwork, slightly lower completion (0.84 → 0.76).
 
-## 7. Real swarm activity: the AI Village dataset (`docs/AI_VILLAGE_CHAINS.md`)
+## 7. Real swarm activity: the AI Village dataset (`docs/AI_VILLAGE_*.md`)
 
 Chain length and privileged-action density measured on AI Digest's AI Village data (78,111
 computer-use sessions across 46 agents, 2025-04 to 2026-09; 1,006 Claude Code chains), with a
-syntactic classifier mirroring Charter §5:
+syntactic classifier mirroring Charter §5, validated on 300 commands against two cross-family LLM
+judges (network precision 0.99 / recall 0.80; credentials 0.89 / 0.67; spawn 0.91 / 0.92; the
+out-of-workspace-write class had no true positives in bash text and was dropped there):
 
 | stream | chains | median n | median k | share k = 0 | k/n | survival at p = 0.95: uniform tax | declaration gate |
 |---|---|---|---|---|---|---|---|
-| computer use, all agents | 78,111 | 40 | 1 | 42% | 0.19 | 0.27 | 0.80 |
-| Claude Code agent | 1,006 | 8 | 2 | 38% | 0.21 | 0.59 | 0.87 |
+| computer use, all agents | 78,111 | 40 | 1 | 47% | 0.14 | 0.27 | 0.84 |
+| Claude Code agent | 1,006 | 8 | 1 | 39% | 0.19 | 0.59 | 0.88 |
 
-Two points carry over. Chain length in the Village is set by the scaffold (consolidation every
-~40 actions), so a mechanism built on chain length measures the harness, not the agent. And about
-one action in five is privileged-class, with two in five sessions containing none, which is why a
-gate keyed to that class costs little throughput while a per-step tax would not.
+Three things carry over. Chain length in the Village is set by the scaffold (consolidation every
+~40 actions), so a mechanism built on chain length measures the harness, not the agent. About one
+bash action in seven is privileged-class and nearly half of sessions contain none, which is why a
+gate keyed to that class costs little throughput while a per-step tax would not. And the Village
+already runs two loci from this study (`docs/AI_VILLAGE_APPROVALS.md`): a human outreach-approval
+gate (343 decisions, 87 refusals, median turnaround 3 minutes, tail of two days) and an
+environment-level credential split for Google sign-in (619 hand-offs). Ten outreach requests were
+explicitly routed through another agent as a proxy because the requester lacked credentials, nine
+approved: delegation laundering in the wild, visible only because the agent said so. Agents named
+4,819 distinct external hosts in bash commands (`docs/AI_VILLAGE_FORENSICS.md`).
 
 ## 8. What this does and does not show
 

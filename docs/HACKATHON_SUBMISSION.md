@@ -59,11 +59,12 @@ question: **what oversight do you get for free from a control that never reads c
 
 - Chain length in the Village is set by the scaffold (median exactly 40, the consolidation cap),
   so any oversight story built on chain length is measuring the harness.
-- About one bash action in five is privileged-class; 42% of sessions contain none. A declaration
-  gate at those actions would have left mean session survival at 0.80 (p = 0.95 per privileged
-  action) against 0.27 for a uniform per-step tax.
+- About one bash action in seven is privileged-class (validated classifier: network precision
+  0.99, spawn 0.91, credentials 0.89); 47% of sessions contain none. A declaration gate at those
+  actions would have left mean session survival at 0.84 (p = 0.95 per privileged action) against
+  0.27 for a uniform per-step tax.
 - Agents named **4,819 distinct external hosts** in bash commands; 241 were reached by five or
-  more agents. Credential-pattern commands: 55k. Spawn-pattern commands: 13k.
+  more agents. Credential-class commands: 36k. Spawn-class commands: 13k.
 - The Village already runs an **outreach approval gate**: 343 human decisions, 87 refusals, median
   turnaround 3 minutes with a tail of two days. Ten requests were explicitly routed through another
   agent as a proxy because the requester lacked credentials, nine approved: delegation laundering
