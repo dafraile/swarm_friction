@@ -52,8 +52,11 @@ question: **what oversight do you get for free from a control that never reads c
   including on benign tasks, and its helpers did 45% of all out-of-scope actions, including calls
   to real external hosts (`api.mathjs.org`, `emkc.org`). Requiring the charter in the spawn call
   removed laundering by construction with delegation unchanged.
-- A **cross-family compliance officer** rubber-stamped nothing (0/50) and refused a quarter of
-  legitimate privileged work.
+- A **compliance officer**, whether of the other family or the same one, rubber-stamped nothing
+  (0/100) and refused a quarter of legitimate privileged work. A one-paragraph **rule in the
+  prompt** produced perfect self-compliance (every privileged action declared, zero violations) and
+  zero transmission: all 84 helpers were spawned without the charter the rule said to pass on. Only
+  the environment gate removed laundering without relying on the agent's cooperation.
 
 **From the AI Village data** (`docs/AI_VILLAGE_*.md`):
 

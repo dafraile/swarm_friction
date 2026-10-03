@@ -17,7 +17,11 @@ the same number of content-free round-trips removed few (0.10, 0.38). The effect
 where the chain-length mechanism predicted none, so the working explanation is forced self-review.
 Requiring the Charter in spawn instructions eliminated norm-laundering by construction. The
 pooled primary test has the predicted sign and misses the conventional threshold (p = 0.068,
-20 task clusters).
+20 task clusters). Across loci, a one-paragraph rule in the prompt and a compliance officer of
+either family both contained luna completely, the officer at the price of refusing a quarter of
+legitimate privileged work; only the environment locus removed norm-laundering without depending
+on the agent's cooperation. The AI Village data (78k sessions) shows chain length is set by the
+scaffold and about one bash action in seven is privileged-class.
 
 ## Documents
 
