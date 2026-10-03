@@ -15,6 +15,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 from .agents import Budget, BudgetExceeded, LLMAgent, RootUsageAggregator, make_judge, make_officer, other_family_model
+from .charter import charter_variant, register_alt_charter
 from .episode import Episode
 from .gates import Broker
 from .tasks import load_tasks
@@ -24,21 +25,30 @@ LOCK = threading.Lock()
 
 
 def run_one(task: dict, friction: str, locus: str, seed: int, model: str, out: Path, budget: Budget,
-            judge_model: str | None, officer_model: str | None, effort: str = "medium", charter: str = "prompt") -> dict:
+            judge_model: str | None, officer_model: str | None, effort: str = "medium", charter: str = "prompt",
+            gates: str = "spec,jurisdiction,spawn_charter", charter_variant_name: str = "full", officer_blind: bool = False, incentive: bool = False) -> dict:
     locus_for_agent = locus
+    ctext = charter_variant(charter_variant_name)
+    if charter_variant_name != "full":
+        register_alt_charter(ctext)
     agg = RootUsageAggregator()
 
     def factory(agent_id, instruction, parent_id, meta_tools, role=None):
-        a = LLMAgent(agent_id, model, task, instruction, meta_tools, budget=budget, parent_id=parent_id, effort=effort, charter=charter, locus=locus_for_agent)
+        a = LLMAgent(agent_id, model, task, instruction, meta_tools, budget=budget, parent_id=parent_id, effort=effort, charter=charter, locus=locus_for_agent, incentive=incentive)
         agg.agents.append(a)
         if parent_id is None:
             a.usage = agg.total  # episode-level totals reported through the root
         return a
 
-    officer = make_officer(officer_model, budget) if locus == "agent" else None
+    officer = make_officer(officer_model, budget, blind=officer_blind, charter_text=ctext) if locus == "agent" else None
     judge = make_judge(judge_model, budget) if judge_model else None
-    broker = Broker(friction=friction, locus=locus, officer=officer, seed=seed)
-    ep = Episode(task, friction, locus, seed, f"{model}@{effort}/{charter}", factory, broker, world=World.load(),
+    broker = Broker(friction=friction, locus=locus, officer=officer, seed=seed, gates=frozenset(g for g in gates.split(",") if g))
+    world = World.load()
+    if charter_variant_name != "full":
+        world.files["/workspace/CHARTER.md"] = ctext
+    tag = "".join([f"/gates={gates}" if gates != "spec,jurisdiction,spawn_charter" else "", f"/charter={charter_variant_name}" if charter_variant_name != "full" else "",
+                   "/officer=blind" if officer_blind else "", "/incentive" if incentive else ""])
+    ep = Episode(task, friction, locus, seed, f"{model}@{effort}/{charter}{tag}", factory, broker, world=world,
                  log_path=out / "calls.jsonl", judge=judge)
     row = ep.run()
     row["declarations"] = len(broker.declarations)
@@ -61,6 +71,10 @@ def main(argv=None):
     ap.add_argument("--no-judge", action="store_true")
     ap.add_argument("--label", default="")
     ap.add_argument("--skip-existing", action="store_true", help="skip (task, friction, seed) cells already present in <out>/calls.episodes.jsonl")
+    ap.add_argument("--gates", default="spec,jurisdiction,spawn_charter", help="structured-bundle components (ablation)")
+    ap.add_argument("--charter-variant", default="full", help="full | no_s8")
+    ap.add_argument("--officer-blind", action="store_true", help="officer sees only tool and target, holds no Charter")
+    ap.add_argument("--incentive", action="store_true", help="gate-aware completeness incentive paragraph in the root prompt")
     ap.add_argument("--officer-model", default=None, help="compliance officer model (default: the other family)")
     ap.add_argument("--charter", default="prompt", help="prompt | file | none : how the Charter is presented to the root agent")
     ap.add_argument("--effort", default="medium", help="reasoning effort: none/low/medium/high (OpenAI) or low/medium/high (Anthropic)")
@@ -92,7 +106,7 @@ def main(argv=None):
     done = []
     t0 = time.time()
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
-        futs = {ex.submit(run_one, t, f, a.locus, s, a.model, out, budget, judge_model, officer_model, a.effort, a.charter): (t["id"], f, s) for t, f, s in jobs}
+        futs = {ex.submit(run_one, t, f, a.locus, s, a.model, out, budget, judge_model, officer_model, a.effort, a.charter, a.gates, a.charter_variant, a.officer_blind, a.incentive): (t["id"], f, s) for t, f, s in jobs}
         for fut in as_completed(futs):
             tid, f, s = futs[fut]
             try:
