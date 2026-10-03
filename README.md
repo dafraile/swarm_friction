@@ -24,6 +24,7 @@ pooled primary test has the predicted sign and misses the conventional threshold
 | File | What it is |
 |---|---|
 | `RESULTS.md` | Cell tables, primary estimand, mechanism, laundering, agent locus, limits. Generated from the committed analysis script. |
+| `docs/AI_VILLAGE_CHAINS.md` | Chain length and privileged-action density in real swarm activity (AI Village dataset, 78k sessions). |
 | `PREREGISTRATION.md` | Hypotheses, falsifiers, estimand, sample, exclusions, and the dated amendments after each pilot. **Read this to know what the numbers mean.** |
 | `METHODOLOGY.md` | v1.1 revisions: the mechanism is privileged-action density, not chain length; the weekend gate bundle; grading; models; budget. Overrides HANDOFF §4. |
 | `HANDOFF.md` | The brief: purpose, thesis, hard design rules, literature positioning, open decisions. |

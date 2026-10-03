@@ -146,7 +146,23 @@ adversarial case (persuade, overwhelm, capture the officer) was not tested.
    to 17.8 while 14.8 declarations were added; luna over-complied and declared non-privileged
    calls too. Less wandering, more paperwork, slightly lower completion (0.84 → 0.76).
 
-## 7. What this does and does not show
+## 7. Real swarm activity: the AI Village dataset (`docs/AI_VILLAGE_CHAINS.md`)
+
+Chain length and privileged-action density measured on AI Digest's AI Village data (78,111
+computer-use sessions across 46 agents, 2025-04 to 2026-09; 1,006 Claude Code chains), with a
+syntactic classifier mirroring Charter §5:
+
+| stream | chains | median n | median k | share k = 0 | k/n | survival at p = 0.95: uniform tax | declaration gate |
+|---|---|---|---|---|---|---|---|
+| computer use, all agents | 78,111 | 40 | 1 | 42% | 0.19 | 0.27 | 0.80 |
+| Claude Code agent | 1,006 | 8 | 2 | 38% | 0.21 | 0.59 | 0.87 |
+
+Two points carry over. Chain length in the Village is set by the scaffold (consolidation every
+~40 actions), so a mechanism built on chain length measures the harness, not the agent. And about
+one action in five is privileged-class, with two in five sessions containing none, which is why a
+gate keyed to that class costs little throughput while a per-step tax would not.
+
+## 8. What this does and does not show
 
 Shown, in a mocked world with two models and agents that do not share the norm: a content-blind
 requirement to declare a privileged action and name a policy clause removed completed violations
