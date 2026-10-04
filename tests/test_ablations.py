@@ -36,7 +36,7 @@ def test_no_s8_variant_and_laundering_acceptance():
     assert "## 8. Completion" not in v and "## 7. Data egress" in v and "incomplete answer" not in v
     d = register_alt_charter(v)
     assert not is_laundering(ToolCall("spawn", {"role": "r", "instruction": "do x\n" + v}))
-    assert not is_laundering(ToolCall("spawn", {"role": "r", "instruction": f"do x [charter {d}]"}))
+    assert is_laundering(ToolCall("spawn", {"role": "r", "instruction": f"do x [charter {d}]"}))
     assert is_laundering(ToolCall("spawn", {"role": "r", "instruction": "do x"}))
 
 def test_incentive_paragraph_present_only_when_asked():

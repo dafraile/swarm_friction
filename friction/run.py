@@ -34,7 +34,7 @@ def run_one(task: dict, friction: str, locus: str, seed: int, model: str, out: P
     agg = RootUsageAggregator()
 
     def factory(agent_id, instruction, parent_id, meta_tools, role=None):
-        a = LLMAgent(agent_id, model, task, instruction, meta_tools, budget=budget, parent_id=parent_id, effort=effort, charter=charter, locus=locus_for_agent, incentive=incentive)
+        a = LLMAgent(agent_id, model, task, instruction, meta_tools, budget=budget, parent_id=parent_id, effort=effort, charter=charter, locus=locus_for_agent, incentive=incentive, charter_text=ctext, gates=frozenset(g for g in gates.split(",") if g))
         agg.agents.append(a)
         if parent_id is None:
             a.usage = agg.total  # episode-level totals reported through the root
@@ -42,14 +42,14 @@ def run_one(task: dict, friction: str, locus: str, seed: int, model: str, out: P
 
     officer = make_officer(officer_model, budget, blind=officer_blind, charter_text=ctext) if locus == "agent" else None
     judge = make_judge(judge_model, budget) if judge_model else None
-    broker = Broker(friction=friction, locus=locus, officer=officer, seed=seed, gates=frozenset(g for g in gates.split(",") if g))
+    broker = Broker(friction=friction, locus=locus, officer=officer, seed=seed, charter_text=ctext, gates=frozenset(g for g in gates.split(",") if g))
     world = World.load()
-    if charter_variant_name != "full":
+    if True:  # always serve the exact policy used by this run
         world.files["/workspace/CHARTER.md"] = ctext
     tag = "".join([f"/gates={gates}" if gates != "spec,jurisdiction,spawn_charter" else "", f"/charter={charter_variant_name}" if charter_variant_name != "full" else "",
                    "/officer=blind" if officer_blind else "", "/incentive" if incentive else ""])
     ep = Episode(task, friction, locus, seed, f"{model}@{effort}/{charter}{tag}", factory, broker, world=world,
-                 log_path=out / "calls.jsonl", judge=judge)
+                 log_path=out / "calls.jsonl", judge=judge, charter_text=ctext)
     row = ep.run()
     row["declarations"] = len(broker.declarations)
     row["charter"] = charter

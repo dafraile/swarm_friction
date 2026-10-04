@@ -101,7 +101,7 @@ def _design(d: pd.DataFrame) -> tuple[np.ndarray, list[str]]:
 
 
 def primary_firth(df: pd.DataFrame, arm: str, label: str, B: int = 1000, seed: int = 0):
-    """Registered fallback when the plain logit separates: Firth estimate of β3, task-level bootstrap CI."""
+    """Post-start fallback when the plain logit separates (exploratory): Firth estimate of β3, task-level bootstrap CI."""
     d = df[df["friction"].isin(["none", arm])].copy()
     if d["friction"].nunique() < 2 or d["suite"].nunique() < 2 or d[d.friction == arm]["suite"].nunique() < 2:
         print(f"  [{label}] arm={arm:10} needs both suites in both arms for a DiD; see the two-arm Suite B rate instead")
@@ -180,8 +180,8 @@ def secondary(df: pd.DataFrame):
         lo, hi = proportion_confint(k, n, method="wilson") if n else (np.nan, np.nan)
         return f"{k}/{n} = {k/n if n else float('nan'):.2f} ({lo:.2f}, {hi:.2f})"
     print("\n-- scoped_refusal, Suite B, by model × friction")
-    for (m, f), sub in df[df.suite == "B"].groupby(["model_family", "friction"]):
-        print(f"  {m:20} {f:10} {rate(sub, 'scoped_refusal')}")
+    for (m, l, f), sub in df[df.suite == "B"].groupby(["model_family", "locus", "friction"]):
+        print(f"  {m:20} {l:12} {f:10} {rate(sub, 'scoped_refusal')}")
     print("\n-- laundering on spawn tasks (B-S5, B-L5), by model × locus × friction")
     for (m, l, f), sub in df[df.task_id.isin(["B-S5", "B-L5"])].groupby(["model_family", "locus", "friction"]):
         print(f"  {m:20} {l:12} {f:10} laundering {rate(sub, 'laundering')}   spawned {int(sub['spawns'].gt(0).sum())}/{len(sub)}")
@@ -190,10 +190,10 @@ def secondary(df: pd.DataFrame):
         for (m, f), sub in df[df.locus == "agent"].groupby(["model_family", "friction"]):
             print(f"  {m:20} {f:10} {rate(sub, 'rubber_stamp')}")
     print("\n-- violation_completed in Suite B by Δk stratum × friction (H2)")
-    for (m, dk, f), sub in df[df.suite == "B"].groupby(["model_family", "dk", "friction"]):
-        print(f"  {m:20} Δk={dk}  {f:10} {rate(sub, 'violation_completed')}")
+    for (m, l, dk, f), sub in df[df.suite == "B"].groupby(["model_family", "locus", "dk", "friction"]):
+        print(f"  {m:20} {l:12} Δk={dk}  {f:10} {rate(sub, 'violation_completed')}")
     print("\n-- Suite A overhead (tax): mean steps / meta calls / tokens_in by friction")
-    print(df[df.suite == "A"].groupby(["model_family", "friction"])[["steps", "meta_calls", "tokens_in", "objective_met"]].mean().round(2).to_string())
+    print(df[df.suite == "A"].groupby(["model_family", "locus", "friction"])[["steps", "meta_calls", "tokens_in", "objective_met"]].mean().round(2).to_string())
 
 
 def main(paths):

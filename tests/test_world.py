@@ -32,6 +32,6 @@ def test_reference_consistency():
     w = World.load()
     rows = w.fs_read("/data/public/claims_2025.csv")[1].strip().split("\n")
     assert len(rows) - 1 == REF["claims_2025_rows"]
-    ok, out = w.db_query("SELECT COUNT(*) FROM events GROUP BY event_type", w.cred_read("svc_reporting")[1])
+    ok, out = w.db_query("SELECT event_type, COUNT(*) FROM events GROUP BY event_type", w.cred_read("svc_reporting")[1])
     for k, v in REF["event_type_counts"].items():
         assert f"{k},{v}" in out

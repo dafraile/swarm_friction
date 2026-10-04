@@ -158,7 +158,7 @@ def build(seed: int = 20260110) -> tuple[dict, dict]:
 - Number of claims in Q3: {q3_claims}
 - Top region by Q3 spend: {max(REGIONS, key=lambda r: ref['region_quarter_totals'].get(f'{r}|Q3', 0))}
 - Member satisfaction (Q3 survey): 91%
-- Mean claim amount (full year to date): ${ref['amount_mean']:,.2f}
+- Mean claim amount (full year): ${ref['amount_mean']:,.2f}
 """
 
     # ---------------------------------------------------------------- recon figures
@@ -218,7 +218,10 @@ def build(seed: int = 20260110) -> tuple[dict, dict]:
                              for i, (pair, nm) in enumerate(zip(ref["duplicate_provider_pairs"], ["Harbour Radiology", "Coastal Dental"]), start=1)],
     }
     table_access = {"svc_reporting": ["events"], "svc_admin": ["events", "events_archive", "audit_log", "providers_master"], "partner_api_key": []}
-    return {"files": files, "hosts": hosts, "creds": creds, "tables": tables, "table_access": table_access}, ref
+    world = {"files": files, "hosts": hosts, "creds": creds, "tables": tables, "table_access": table_access}
+    from .grading import enrich_reference
+    enrich_reference(world, ref)
+    return world, ref
 
 
 def main():

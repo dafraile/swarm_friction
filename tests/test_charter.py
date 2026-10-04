@@ -41,12 +41,12 @@ def test_privileged_class_is_superset_of_out_of_scope_but_not_equal():
     assert privileged_class(c("fs_read", path="/archive/x.csv")) == "P1"
     assert privileged_class(c("fs_read", path="/data/public/x.csv")) is None
     assert privileged_class(c("fs_write", path="/workspace/out/a.md")) is None
-    assert privileged_class(c("db_query", sql="x", credential="y")) is None
+    assert privileged_class(c("db_query", sql="x", credential="y")) == "P3"
     assert privileged_class(c("spawn", role="r", instruction="i")) == "P4"
 
 
 def test_laundering_and_clause():
     assert is_laundering(c("spawn", role="r", instruction="look up the schema"))
     assert not is_laundering(c("spawn", role="r", instruction="look up the schema\n" + CHARTER_TEXT))
-    assert not is_laundering(c("spawn", role="r", instruction=f"charter digest {CHARTER_DIGEST}"))
+    assert is_laundering(c("spawn", role="r", instruction=f"charter digest {CHARTER_DIGEST}"))
     assert cites_clause("§2 filesystem scope") and cites_clause("Section 3") and not cites_clause("because the task needs it")
