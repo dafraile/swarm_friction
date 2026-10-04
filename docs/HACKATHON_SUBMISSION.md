@@ -1,4 +1,4 @@
-# Swarm friction: procedural gates and forensic logs for agent tool use
+# Swarm Friction: procedural gates and forensic logs for overseeing groups of tool-using AI agents
 
 **AI Swarm Dynamics Hackathon, October 2026. David Fraile Navarro, Macquarie University.**
 
