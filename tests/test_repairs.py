@@ -177,3 +177,14 @@ def test_campaign_never_replaces_an_interrupted_attempt(tmp_path,monkeypatch):
     original=(tmp_path/'attempts/stable-attempt/result.json').read_bytes()
     assert experiment.run_job(job,m,tmp_path,budget,threading.Event()) is None
     assert original==(tmp_path/'attempts/stable-attempt/result.json').read_bytes()
+
+
+def test_zero_cell_sensitivity_preserves_incorrect_extra_totals():
+    from analysis.repair_output_audit import normalize
+    w=World.load(seed=101);r=reference_for('A-L1',w.reference)
+    r['region_quarter_totals']['UNKNOWN|Q4']=0
+    corrected,rules=normalize('A-L1',r,w.reference)
+    assert rules and 'UNKNOWN|Q4' not in corrected['region_quarter_totals']
+    r['region_quarter_totals']['UNKNOWN|Q4']=1
+    corrected,rules=normalize('A-L1',r,w.reference)
+    assert not rules and corrected['region_quarter_totals']['UNKNOWN|Q4']==1
