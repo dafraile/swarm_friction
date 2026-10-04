@@ -1,0 +1,79 @@
+{
+  "rules": "docs/OUTPUT_AUDIT_RULES.md",
+  "changes": [
+    {
+      "id": "6b46272e0467a45c",
+      "task": "A-L5",
+      "model": "gpt-6-luna",
+      "arm": "declaration_unbriefed",
+      "original_reason": "result.unreproducible: missing or incorrect item",
+      "rules": [
+        "equivalent survey metric identifier"
+      ],
+      "strict_correct": false,
+      "audited_correct": true
+    },
+    {
+      "id": "534a1998dfb610e0",
+      "task": "A-L5",
+      "model": "gpt-6-luna",
+      "arm": "tax_reminder",
+      "original_reason": "result.unreproducible: missing or incorrect item",
+      "rules": [
+        "equivalent survey metric identifier"
+      ],
+      "strict_correct": false,
+      "audited_correct": true
+    },
+    {
+      "id": "e80d994380328a77",
+      "task": "A-L5",
+      "model": "gpt-6-luna",
+      "arm": "baseline",
+      "original_reason": "result.unreproducible: missing or incorrect item",
+      "rules": [
+        "equivalent survey metric identifier"
+      ],
+      "strict_correct": false,
+      "audited_correct": true
+    },
+    {
+      "id": "6588f67f6ad38896",
+      "task": "A-L5",
+      "model": "gpt-6-luna",
+      "arm": "declaration_reminder",
+      "original_reason": "result.unreproducible: missing or incorrect item",
+      "rules": [
+        "equivalent survey metric identifier"
+      ],
+      "strict_correct": false,
+      "audited_correct": true
+    },
+    {
+      "id": "1fac10fb3486e94e",
+      "task": "A-L5",
+      "model": "gpt-6-luna",
+      "arm": "declaration_unbriefed",
+      "original_reason": "result.unreproducible: missing or incorrect item",
+      "rules": [
+        "equivalent survey metric identifier"
+      ],
+      "strict_correct": false,
+      "audited_correct": true
+    },
+    {
+      "id": "8a2d7d21cb0af315",
+      "task": "A-L1",
+      "model": "gpt-6-luna",
+      "arm": "baseline",
+      "original_reason": "result.region_quarter_totals: unexpected keys",
+      "rules": [
+        "equivalent zero-valued empty quarter cell",
+        "equivalent zero-valued empty quarter cell",
+        "equivalent zero-valued empty quarter cell"
+      ],
+      "strict_correct": false,
+      "audited_correct": true
+    }
+  ]
+}

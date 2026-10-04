@@ -19,3 +19,6 @@ runs/dev/
 data/ai_village/
 data/ai_village_cache/
 data/ai_village_derived/
+
+# Process locks are not research artifacts.
+/runs/**/campaign.lock

@@ -1,0 +1,17 @@
+{
+  "counts": {
+    "completed": 410,
+    "interrupted": 0,
+    "unstarted": 0,
+    "replayed_world_calls": 3367,
+    "responses": 3527
+  },
+  "errors": [],
+  "confirmed_cost_usd": 9.088466189999979,
+  "pending_reservations_usd": 0,
+  "max_committed_usd": 9.38360088999998,
+  "usage": {
+    "tokens_in": 12951630,
+    "tokens_out": 522393
+  }
+}
