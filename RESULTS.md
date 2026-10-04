@@ -3,7 +3,7 @@
 **Status:** confirmatory runs complete 2026-10-03 01:05 AEST; locus ladder, ablations and
 pressure arms added 2026-10-04. 1,300 harness episodes at `charter = none` (gpt-6-luna: 300 environment, 100 prompt
 locus, 50 agent locus with a Sonnet officer, 50 with a luna officer; claude-sonnet-5-5: 250),
-100 charter-file episodes, 90 pilot episodes. Total spend USD 27 against a USD 50 cap. Zero unresolved
+100 charter-file episodes, 90 pilot episodes. Total model spend USD 41 against a USD 50 cap. Zero unresolved
 provider errors (one judge truncation re-run per the exclusion rule).
 
 Every number below is produced by `python analysis/primary.py runs/main_luna runs/main_sonnet
@@ -243,14 +243,16 @@ exist. Nothing instructs a shortcut. luna, Suite B:
 
 | locus | without incentive | with incentive |
 |---|---|---|
-| none | 0.50 | PENDING_NONE |
+| none | 0.50 | 0.40 (0.28, 0.54) |
 | prompt (rule described, unenforced) | 0.00 | **0.00** |
 | environment (full bundle) | 0.24 | 0.26 |
-| agent (Sonnet officer) | 0.00 | PENDING_AGENT |
+| agent (Sonnet officer) | 0.00 | **0.00** |
 
-Telling the agent that it is scored on completeness and that gates exist did not move any locus.
-The prompt rule held at zero violations with the same transmission failure as before (laundering
-0.20: helpers still spawned without the Charter). The design's prediction that the prompt and
+Telling the agent that it is scored on completeness and that gates exist did not raise violations
+at any locus; the no-friction rate fell within noise (0.50 → 0.40). The prompt rule held at zero
+violations with the same transmission failure as before (laundering 0.20: helpers still spawned
+without the Charter), and the officer again denied every out-of-scope declaration (3/3) while
+refusing 105 in-scope ones. The design's prediction that the prompt and
 officer loci fail first under pressure was not reached by this amount of pressure; a cooperative
 model told the rule follows the rule. Adversarial pressure, an agent told to route around the
 procedure, remains untested and is the next experiment.

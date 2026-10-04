@@ -7,9 +7,10 @@ David Fraile Navarro's **MATS Winter 2027 Stage-2** application (empirical track
 more than it degrades legitimate work, because out-of-scope paths are denser in privileged-class
 actions and decay multiplicatively under gates that never know what they are looking at.
 
-**Status (2026-10-03 01:30 AEST):** harness built and tested; methodology revised and
-pre-registered with three dated amendments; confirmatory runs complete on two model families
-(600 episodes, USD 25 total). **Results are in `RESULTS.md`.** One-paragraph version: with no
+**Status (2026-10-04 12:30 AEDT):** harness built and tested; methodology revised and
+pre-registered with three dated amendments; confirmatory runs, locus ladder, bundle ablations and
+pressure arms complete on two model families (1,300 episodes, USD 41 total); AI Village analysis
+with a judge-validated classifier. **Results are in `RESULTS.md`.** One-paragraph version: with no
 norm in the prompt, a content-blind requirement to declare a privileged action and cite a policy
 clause removed completed out-of-scope actions on Sonnet 5.5 (0.14 → 0.00) and halved them on
 gpt-6-luna (0.50 → 0.24) at a small cost to legitimate work (0.74 → 0.72, 0.84 → 0.76), while
