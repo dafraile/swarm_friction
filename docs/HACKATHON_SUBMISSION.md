@@ -30,6 +30,18 @@ The log records identity within each episode, tool and target, declared intent, 
 
 The same auditing approach was applied descriptively to AI Village data. Raw aggregates were reproduced, but interpretation was corrected: 14.4% used all computer actions as its denominator, while about 35.7% of bash actions matched the proxy; GUI actions were unclassified; P4 included processes as well as agents; pⁿ/pᵏ values were hypothetical, not measured throughput. Nine of ten disclosed proxy-posting requests were approved, which does not establish evasion. Classifier accuracy figures came from development calibration and lack an independent holdout.
 
-The defensible contribution is an inspectable experimental harness and evidence that policy exposure can dominate the apparent effect of procedural declarations in this small benchmark. It does not establish a general content-blind containment mechanism.
+## Use of the AI Village data
+
+The dataset was used two ways, both descriptive and both reproduced by the audit (`docs/AI_VILLAGE_CHAINS.md`, `docs/AI_VILLAGE_FORENSICS.md`, `docs/AI_VILLAGE_APPROVALS.md`):
+
+- **Chain length is set by the scaffold.** The median computer-use session is exactly 40 actions across 78,111 sessions, because agents consolidate memory every 40 actions; the Claude Code agent, running its own loop, has a median of 8. Oversight metrics keyed to chain length would be measuring the harness.
+- **A privileged-class inventory a content-blind gate would see.** 35.7% of bash commands (14.4% of all actions) match network, credential or process-launch patterns; agents named 4,819 distinct external hosts, 241 of them named by five or more agents. GUI actions are unclassified and hostnames do not prove contact, so these are proxy counts.
+- **The Village's own approval loop, reconstructed from events.** 352 outreach requests, 343 decisions, 87 refusals, median turnaround 3 minutes with a tail of two days; ten requests disclosed routing an action through another agent that held credentials the requester lacked, nine approved. These are the oversight artifacts the event table already provides without reading chat.
+
+## The tool, and the questions it answers
+
+`python -m friction.forensics <log>` runs a fixed question set over any broker log: who touched which credentials, which hosts were named, which spawns omitted the policy, what the gates denied, what an unenforced rule would have denied, what an officer approved or refused. The Village scripts apply the same questions to a transcript export. The intent matches the brief's request for pre-written questions one would always ask of a multi-agent group, answered from structure rather than narrative.
+
+The defensible contribution is an inspectable experimental harness, a forensic log and question set that survive an audit, descriptive Village measurements with their denominators stated, and evidence that policy exposure can dominate the apparent effect of procedural declarations in this small benchmark. It does not establish a general content-blind containment mechanism.
 
 Full results, qualifications and reproduction links are in `RESULTS.md` and `docs/REPAIR_PROTOCOL.md`.
