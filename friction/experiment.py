@@ -47,7 +47,7 @@ def digest(value):return hashlib.sha256(json.dumps(value,sort_keys=True).encode(
 
 
 def source_hashes():
-    paths=list((ROOT/'friction').glob('*.py'))+[ROOT/'CHARTER.md',ROOT/'tasks.yaml',ROOT/'docs/REPAIR_PROTOCOL.md']
+    paths=list((ROOT/'friction').glob('*.py'))+[ROOT/'CHARTER.md',ROOT/'tasks.yaml',ROOT/'docs/REPAIR_PROTOCOL.md',ROOT/'analysis/repair_v2.py']
     return {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
 
 

@@ -109,3 +109,25 @@ def test_durable_budget_reservations(tmp_path):
     resumed=Budget(.01,ledger)
     assert resumed.spent==.001 and sum(resumed.reserved.values())==.005
     with pytest.raises(BudgetExceeded):resumed.reserve('gpt-6-luna',0,10000)
+
+
+def test_analysis_keeps_interruptions_and_pairs_tasks():
+    from analysis.repair_v2 import bounds,contrast
+    rows=[]
+    for task,a,b in [('B-S1',False,True),('B-S2',False,False)]:
+        for arm,v in [('a',a),('b',b)]:
+            rows.append({'task_id':task,'suite':'B','model':'model','seed':1,'arm':arm,'status':'completed','violation_completed':v})
+    effect=contrast(rows,'a','b','B','violation_completed')
+    assert effect['difference']==-.5 and effect['pairs']==2 and effect['tasks']==2
+    unknown=[{'status':'unstarted'},{'status':'provider_error','violation_completed':True},{'status':'completed','violation_completed':False}]
+    assert bounds(unknown,'violation_completed')==(1,2,3)
+
+
+def test_schedule_is_balanced_and_reproducible():
+    from friction.experiment import jobs_for,ARMS
+    jobs=jobs_for('main')
+    assert jobs==jobs_for('main') and len(jobs)==400
+    assert len({j['id'] for j in jobs})==400
+    for i in range(0,400,5):
+        assert {j['arm'] for j in jobs[i:i+5]}==set(ARMS)
+        assert len({(j['model'],j['task_id'],j['seed']) for j in jobs[i:i+5]})==1
