@@ -18,7 +18,7 @@
 ## What changed in v2
 
 - **P3 credentials:** v1 matched bare words (`token`, `secret`) and was 24% precise. v2 requires a credential file, an auth command, a credential-shaped assignment or header, an uppercase `*_TOKEN`/`*_KEY`-style variable, or the dataset's `[REDACTED]` marker. The historical table reports precision 0.89 on this development sample; recall is limited by commands that build a credential in ways no regex names.
-- **P1 out-of-workspace writes from bash text:** 49 regex hits, 0 gold positives (the agents own their VM, so absolute-path writes are not out of scope there). Removed from the bash classifier. P1 is still assigned in the Claude Code stream from explicit file-tool paths, which is unambiguous.
+- **P1 out-of-workspace writes from bash text:** 49 regex hits, 0 gold positives (the agents own their VM, so absolute-path writes are not out of scope there). Removed from the bash classifier. P1 is still assigned in the Claude Code stream from explicit file-tool paths as a syntactic heuristic; this does not independently establish the applicable authorization policy.
 - **P2 network** (precision 0.99, recall 0.80) and **P4 spawn** (0.91 / 0.92) are unchanged.
 
 Note on the sample: it is stratified by the v1 prediction, so recall is measured only against gold positives that fell into the sampled strata. Neither unweighted precision nor recall is a population estimate under this sampling scheme. Current Village aggregates use v2, whose independent accuracy remains unestablished.

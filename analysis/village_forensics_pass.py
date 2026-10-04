@@ -59,10 +59,10 @@ md += [f"| {h} | {n:,} | {len(host_agents[h])} |" for h, n in hosts.most_common(
 md += ["", "Per model family, top hosts:", ""]
 for f, c in hosts_fam.items():
     md.append(f"- **{f}**: " + ", ".join(f"{h} ({n})" for h, n in c.most_common(8)))
-md += ["", "## Credential touches (P3): pattern that triggered the class", "", "| pattern | commands |", "|---|---|"]
+md += ["", "## Credential-pattern matches (P3): descriptive keyword, not necessarily the classifier trigger", "", "| pattern | commands |", "|---|---|"]
 md += [f"| `{p}` | {n:,} |" for p, n in cred_cmds.most_common(25)]
 md += ["", "## Agent/process spawning (P4)", "", f"- commands matching a spawn pattern: {cls_counts['P4']:,} (first 2,000 retained as a descriptive convenience sample; no laundering inference)",
-       "- by family: " + ", ".join(f"{f} {n}" for f, n in collections.Counter(s['family'] for s in spawn_cmds).most_common()), "",
+       "- by family in the first 2,000 matches (not a population estimate): " + ", ".join(f"{f} {n}" for f, n in collections.Counter(s['family'] for s in spawn_cmds).most_common()), "",
        "## Class counts over all bash actions", "", "| class | commands | share of bash |", "|---|---|---|"]
 md += [f"| {c} | {cls_counts[c]:,} | {cls_counts[c]/max(n_bash,1):.1%} |" for c in ("P1", "P2", "P3", "P4", "none")]
 Path("docs/AI_VILLAGE_FORENSICS.md").write_text("\n".join(md) + "\n"); print("\n".join(md[:12])); print("FORENSICS_DONE")

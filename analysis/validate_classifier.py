@@ -61,7 +61,7 @@ def main(limit_per_class: int = 60):
         md.append(f"| {p} ({k}) | {tp+fn} | {tp} | {fp} | {fn} | {prec:.2f} | {rec:.2f} | {dis} |")
     md += ["", f"Judge spend: USD {budget.spent:.2f}.", "",
            "Note on the sample: it is stratified by the regex's own prediction, so recall is measured only against gold positives that "
-           "fell into the sampled strata (including the `none` stratum, which is where regex misses would appear). Precision is the "
+           "fell into the sampled strata (including the `none` stratum, which is where regex misses would appear). Precision is "
            "also affected by unequal stratum sampling. These unweighted agreement-conditioned values are development diagnostics, not population precision/recall or held-out validation. No strict lower bound is established."]
     Path("data/ai_village_derived/calibration_v2_report.md").write_text("\n".join(md) + "\n"); print("\n".join(md))
 

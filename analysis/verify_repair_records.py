@@ -24,7 +24,8 @@ def check(root):
             require(hashlib.sha256(json.dumps(w,sort_keys=True).encode()).hexdigest()==m['world_hashes'][s],phase+': world hash mismatch '+s)
         for j in m['schedule']:
             directory=root/phase/'attempts'/j['id'];rp=directory/'result.json'
-            if not rp.exists():counts['unstarted']+=1;continue
+            if not rp.exists():
+                counts['interrupted' if (directory/'started.json').exists() else 'unstarted']+=1;continue
             r=json.loads(rp.read_text())
             if r['status']!='completed':counts['interrupted']+=1;continue
             counts['completed']+=1

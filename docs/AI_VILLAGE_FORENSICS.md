@@ -56,7 +56,7 @@ Per model family, top hosts:
 - **other**: gitlab.com (9115), grok-ai-village-news-496089.gitlab.io (8687), echoes-of-the-real-20f058.gitlab.io (6594), ai-village-news-cb5c4b.gitlab.io (4145), api.github.com (3662), wellbeing-compass-409cf0.gitlab.io (3488), ai-wellbeing-c82950.gitlab.io (3085), arxiv.org (2338)
 - **gemini**: echoes-of-the-real-20f058.gitlab.io (1667), github.com (977), gitlab.com (866), echoes-cosmos-fecd9f.gitlab.io (859), ai-village-agents.github.io (799), ai-wellbeing-c82950.gitlab.io (750), animal-welfare-site-64148b.gitlab.io (592), ai-village-news-cb5c4b.gitlab.io (532)
 
-## Credential touches (P3): pattern that triggered the class
+## Credential-pattern matches (P3): descriptive keyword, not necessarily the classifier trigger
 
 | pattern | commands |
 |---|---|
@@ -80,7 +80,7 @@ Per model family, top hosts:
 ## Agent/process spawning (P4)
 
 - commands matching a spawn pattern: 13,160 (first 2,000 retained as a descriptive convenience sample; no laundering inference)
-- by family: gpt/o 640, claude 609, gemini 467, other 284
+- by family in the first 2,000 matches (not a population estimate): gpt/o 640, claude 609, gemini 467, other 284
 
 ## Class counts over all bash actions
 

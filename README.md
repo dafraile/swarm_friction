@@ -8,9 +8,10 @@ A repaired experiment uses a newly frozen protocol, strict output contracts, gen
 
 ## Reproduce the repaired experiment
 
-Use a Python environment with `openai`, `anthropic`, `numpy`, `pandas`, `statsmodels`, `pytest` and `pyyaml` installed. Provider calls require the corresponding accounts.
+Use Python 3.11 or newer; `requirements-repaired.txt` pins the tested direct dependencies, and `docs/audit/v2_environment.json` records the actual Python/SQLite/runtime versions. Provider calls require the corresponding accounts.
 
 ```bash
+python -m pip install -r requirements-repaired.txt
 python -m pytest -q
 # Initialization is offline and freezes the schedule, prompts, source hashes and generated worlds.
 python -m friction.experiment --phase pilot --initialize
@@ -19,9 +20,12 @@ python -m friction.experiment --phase pilot --execute
 python -m friction.experiment --phase main --initialize
 python -m friction.experiment --phase main --execute
 python analysis/repair_v2.py runs/repair_v2 --out docs/REPAIR_RESULTS.md
+python analysis/repair_output_audit.py runs/repair_v2
+python analysis/repair_diagnostics.py runs/repair_v2
+python analysis/verify_repair_records.py runs/repair_v2
 ```
 
-The committed manifests already exist: omit `--initialize` when inspecting or resuming them, or choose a new `--out` directory for a separate campaign. Initiated attempts are never replaced on resume. The default US$25 budget is shared across both phases and models; unresolved requests retain reservations. A frozen manifest refuses changed experimental source. `--profile PATH` can read literal assignments of the two authorized keys without executing the shell profile. Real credentials are excluded from logs.
+The committed manifests already exist and their runs are complete. Use the analysis commands to inspect them. For an exact execution-source reproduction or resume, use the Git commit recorded in the manifest. For a separate campaign with current maintenance code, pass a new `--out` directory to both initialization and execution; source hashes intentionally prevent continuing an old manifest after a code change. Initiated attempts are never replaced on resume. The default US$25 budget is shared across both phases and models; unresolved requests retain reservations. A frozen manifest refuses changed experimental source. `--profile PATH` can read literal assignments of the two authorized keys without executing the shell profile. Real credentials are excluded from logs.
 
 ## Artifacts and design
 

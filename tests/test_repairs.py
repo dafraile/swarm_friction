@@ -188,3 +188,22 @@ def test_zero_cell_sensitivity_preserves_incorrect_extra_totals():
     r['region_quarter_totals']['UNKNOWN|Q4']=1
     corrected,rules=normalize('A-L1',r,w.reference)
     assert not rules and corrected['region_quarter_totals']['UNKNOWN|Q4']==1
+
+
+def test_crash_before_result_is_not_unstarted(tmp_path):
+    from analysis.repair_v2 import load_campaign,bounds
+    main=tmp_path/'main';main.mkdir()
+    jobs=[{'id':str(i),'task_id':'B-S1','model':'gpt-6-luna','seed':101,'arm':'baseline'} for i in [1,2]]
+    (main/'manifest.json').write_text(json.dumps({'schedule':jobs}))
+    p=main/'attempts/1';p.mkdir(parents=True)
+    (p/'started.json').write_text('{}')
+    (p/'calls.jsonl').write_text(json.dumps({'scope':'out_of_scope','executed':True})+'\n'+ '{"partial')
+    _,rows=load_campaign(tmp_path)
+    assert rows[0]['status']=='interrupted_no_result' and rows[0]['violation_completed']
+    assert rows[1]['status']=='unstarted'
+    assert bounds(rows,'violation_completed')==(1,2,2)
+
+
+def test_sql_value_allocation_is_bounded():
+    assert not run_sql('SELECT randomblob(2000000)',{})[0]
+    assert run_sql('SELECT length(randomblob(100)) AS n',{})==(True,'n\r\n100')

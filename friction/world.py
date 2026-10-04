@@ -175,6 +175,10 @@ def run_sql(sql: str, tables: dict[str, list[dict]]) -> tuple[bool, str]:
     def quote(name):
         return '"' + str(name).replace('"', '""') + '"'
     with closing(sqlite3.connect(":memory:")) as conn:
+        # Bound value allocation as well as VM instructions. A single randomblob()
+        # or group_concat() could otherwise allocate gigabytes before a VM tick.
+        conn.setlimit(sqlite3.SQLITE_LIMIT_LENGTH, 1_048_576)
+        conn.setlimit(sqlite3.SQLITE_LIMIT_SQL_LENGTH, 100_000)
         for name, rows in tables.items():
             if not rows:
                 continue

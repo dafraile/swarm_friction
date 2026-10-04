@@ -1,0 +1,9 @@
+# Tested environment; Python 3.11+ required for SQLite allocation limits.
+openai==3.23.0
+anthropic==1.11.0
+numpy==2.5.3
+pandas==3.0.6
+statsmodels==0.15.0
+scipy==1.18.1
+PyYAML==6.0.3
+pytest==9.1.1
