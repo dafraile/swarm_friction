@@ -2,6 +2,8 @@
 
 **AI Swarm Dynamics Hackathon, October 2026. David Fraile Navarro, Macquarie University.**
 
+**Short summary:** A forensic toolkit for asking what agent logs actually establish: who requested an action, what was allowed, what executed, and whether the result complied with policy. A repaired 400-episode experiment found no declaration-specific advantage over acknowledgement when both included policy reminders. Descriptive AI Village analyses expose denominator and scaffold effects. A new SwarmTraces audit shows why evidence-record groups must not be mistaken for action chains: its largest parent-linked component has 859 records but depth one. The contribution is reproducible tooling and carefully bounded findings about three different evidence sources.
+
 This project builds a procedural broker and forensic log for agents operating in a synthetic analytics platform. A gate can require a declaration, bind it to the eventual tool and target, and require a policy-clause citation without deciding whether that action is permitted. A separate logger records the scope label after the fact. This makes procedural compliance and actual policy compliance independently inspectable.
 
 The initial experiment appeared to favor declarations over a simple acknowledgement. An independent audit found policy-reminder confounding, permissive graders, incorrect global step accounting, credential-use bypasses, inadequate policy delivery to children and incomplete attempt accounting. Those findings are preserved in `docs/audit/AUDIT_2026-10-04.txt`; historical results are explicitly superseded by `docs/LEGACY_ERRATA.md`.
@@ -42,6 +44,12 @@ The dataset was used two ways, both descriptive and both reproduced by the audit
 
 `python -m friction.forensics <log>` runs a fixed question set over any broker log: who touched which credentials, which hosts were named, which spawns omitted the policy, what the gates denied, what an unenforced rule would have denied, what an officer approved or refused. The Village scripts apply the same questions to a transcript export. The intent matches the brief's request for pre-written questions one would always ask of a multi-agent group, answered from structure rather than narrative.
 
-The defensible contribution is an inspectable experimental harness, a forensic log and question set that survive an audit, descriptive Village measurements with their denominators stated, and evidence that policy exposure can dominate the apparent effect of procedural declarations in this small benchmark. It does not establish a general content-blind containment mechanism.
+## SwarmTraces: audit the evidence before measuring the swarm
+
+An offline audit of the redacted SwarmTraces export adds a third evidence source. Its 189,579 records include 91,037 payloads, 75,534 recovered-text records and 23,008 response records. All structured timestamps are null. The 61,125 parent edges form components of depth one; the largest contains 859 records, comprising one root and 858 direct children. Calling this an 859-step agent chain would confuse evidence structure with behavior.
+
+The analyzer verifies IDs and parent references, counts exact released-text duplicates, and inventories existing redaction markers with separate occurrence, record and distinct-label denominators. It does not execute or reconstruct payloads. These measurements do not identify agents, prove successful requests, or estimate a gate's effect. [The report](SWARMTRACES_STRUCTURE.md), [aggregate JSON](audit/swarmtraces_structure.json) and [code](../analysis/swarmtraces_structure.py) preserve the definitions and source hash.
+
+The defensible contribution is an inspectable experimental harness, a forensic log and question set that survive an audit, descriptive Village measurements with their denominators stated, evidence-coverage checks on SwarmTraces, and evidence that policy exposure can dominate the apparent effect of procedural declarations in this small benchmark. It does not establish a general content-blind containment mechanism.
 
 Full results, qualifications and reproduction links are in `RESULTS.md` and `docs/REPAIR_PROTOCOL.md`.

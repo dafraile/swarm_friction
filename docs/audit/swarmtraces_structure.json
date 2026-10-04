@@ -1,0 +1,644 @@
+{
+  "analysis_source_sha256": "d42ff337828193de3784d7f52b80a79e784d609f276745eb77d2b2b0aedc6372",
+  "exact_text": {
+    "duplicate_records_beyond_first": 25728,
+    "largest_identical_text_group": 1094,
+    "records_in_duplicate_groups": 44763,
+    "unique_sha256_values": 163851
+  },
+  "field_nonnull_counts": {
+    "cite": 189579,
+    "id": 189579,
+    "kind": 189579,
+    "parent_id": 61125,
+    "tags": 189579,
+    "text": 189579,
+    "time_utc": 0
+  },
+  "graph": {
+    "children_per_parent_with_children": {
+      "histogram": {
+        "1": 16291,
+        "2": 4926,
+        "3": 1052,
+        "4": 1444,
+        "5": 170,
+        "6": 352,
+        "7": 138,
+        "8": 431,
+        "9": 276,
+        "10": 256,
+        "11": 418,
+        "12": 314,
+        "13": 33,
+        "14": 23,
+        "15": 16,
+        "16": 30,
+        "17": 6,
+        "18": 8,
+        "19": 8,
+        "20": 4,
+        "21": 2,
+        "22": 5,
+        "23": 1,
+        "24": 4,
+        "25": 2,
+        "26": 5,
+        "27": 1,
+        "28": 4,
+        "31": 1,
+        "32": 1,
+        "34": 2,
+        "36": 1,
+        "37": 1,
+        "43": 1,
+        "44": 3,
+        "46": 1,
+        "52": 1,
+        "54": 1,
+        "56": 1,
+        "70": 7,
+        "84": 1,
+        "90": 1,
+        "104": 1,
+        "108": 1,
+        "134": 1,
+        "270": 1,
+        "858": 1
+      },
+      "max": 858,
+      "min": 1,
+      "n": 26248,
+      "p50": 1,
+      "p90": 4,
+      "p99": 12
+    },
+    "component_sizes_all_roots": {
+      "histogram": {
+        "1": 102206,
+        "2": 16291,
+        "3": 4926,
+        "4": 1052,
+        "5": 1444,
+        "6": 170,
+        "7": 352,
+        "8": 138,
+        "9": 431,
+        "10": 276,
+        "11": 256,
+        "12": 418,
+        "13": 314,
+        "14": 33,
+        "15": 23,
+        "16": 16,
+        "17": 30,
+        "18": 6,
+        "19": 8,
+        "20": 8,
+        "21": 4,
+        "22": 2,
+        "23": 5,
+        "24": 1,
+        "25": 4,
+        "26": 2,
+        "27": 5,
+        "28": 1,
+        "29": 4,
+        "32": 1,
+        "33": 1,
+        "35": 2,
+        "37": 1,
+        "38": 1,
+        "44": 1,
+        "45": 3,
+        "47": 1,
+        "53": 1,
+        "55": 1,
+        "57": 1,
+        "71": 7,
+        "85": 1,
+        "91": 1,
+        "105": 1,
+        "109": 1,
+        "135": 1,
+        "271": 1,
+        "859": 1
+      },
+      "max": 859,
+      "min": 1,
+      "n": 128454,
+      "p50": 1,
+      "p90": 2,
+      "p99": 10
+    },
+    "component_sizes_non_singleton": {
+      "histogram": {
+        "2": 16291,
+        "3": 4926,
+        "4": 1052,
+        "5": 1444,
+        "6": 170,
+        "7": 352,
+        "8": 138,
+        "9": 431,
+        "10": 276,
+        "11": 256,
+        "12": 418,
+        "13": 314,
+        "14": 33,
+        "15": 23,
+        "16": 16,
+        "17": 30,
+        "18": 6,
+        "19": 8,
+        "20": 8,
+        "21": 4,
+        "22": 2,
+        "23": 5,
+        "24": 1,
+        "25": 4,
+        "26": 2,
+        "27": 5,
+        "28": 1,
+        "29": 4,
+        "32": 1,
+        "33": 1,
+        "35": 2,
+        "37": 1,
+        "38": 1,
+        "44": 1,
+        "45": 3,
+        "47": 1,
+        "53": 1,
+        "55": 1,
+        "57": 1,
+        "71": 7,
+        "85": 1,
+        "91": 1,
+        "105": 1,
+        "109": 1,
+        "135": 1,
+        "271": 1,
+        "859": 1
+      },
+      "max": 859,
+      "min": 2,
+      "n": 26248,
+      "p50": 2,
+      "p90": 5,
+      "p99": 13
+    },
+    "cycle_lengths": {
+      "histogram": {},
+      "max": null,
+      "min": null,
+      "n": 0,
+      "p50": null,
+      "p90": null,
+      "p99": null
+    },
+    "cycles": 0,
+    "explicit_roots": 128454,
+    "missing_parent_edges": 0,
+    "non_singleton_components": 26248,
+    "parent_child_kind_counts": [
+      {
+        "child_kind": "recovered_text",
+        "parent_kind": "payload",
+        "records": 42707
+      },
+      {
+        "child_kind": "response",
+        "parent_kind": "payload",
+        "records": 18417
+      },
+      {
+        "child_kind": "recovered_text",
+        "parent_kind": "recovered_text",
+        "records": 1
+      }
+    ],
+    "parent_linked_records": 61125,
+    "record_depths_edges_from_root": {
+      "histogram": {
+        "0": 128454,
+        "1": 61125
+      },
+      "max": 1,
+      "min": 0,
+      "n": 189579,
+      "p50": 0,
+      "p90": 1,
+      "p99": 1
+    },
+    "records_affected_by_cycle": 0,
+    "records_affected_by_missing_parent": 0,
+    "rooted_components": 128454,
+    "rooted_records": 189579,
+    "self_parent_edges": 0,
+    "singleton_components": 102206
+  },
+  "interpretation": [
+    "Record kinds and parent edges are publisher metadata, not observed agent interactions.",
+    "Response labels alone do not establish successful execution or matched requests.",
+    "Exact-text duplication is over released redacted text, not underlying actions.",
+    "Marker occurrences, records and distinct labels are different denominators.",
+    "Literal labels do not establish distinct secrets, people, hosts or successful use.",
+    "Marker counts cover only the explicitly listed syntactic patterns; categories may overlap.",
+    "Missing time_utc does not mean the original event or the text had no time information."
+  ],
+  "kind_counts": {
+    "payload": 91037,
+    "recovered_text": 75534,
+    "response": 23008
+  },
+  "marker_counts": {
+    "named:credential": {
+      "distinct_literal_labels": 2673,
+      "occurrences": 42790,
+      "records": 31210,
+      "records_by_kind": {
+        "payload": 22565,
+        "recovered_text": 6773,
+        "response": 1872
+      }
+    },
+    "named:hf_repo_label": {
+      "distinct_literal_labels": 520,
+      "occurrences": 7465,
+      "records": 5323,
+      "records_by_kind": {
+        "payload": 3436,
+        "recovered_text": 1457,
+        "response": 430
+      }
+    },
+    "named:service_host": {
+      "distinct_literal_labels": 26,
+      "occurrences": 13136,
+      "records": 12353,
+      "records_by_kind": {
+        "payload": 8545,
+        "recovered_text": 2194,
+        "response": 1614
+      }
+    },
+    "named:service_url": {
+      "distinct_literal_labels": 4004,
+      "occurrences": 58128,
+      "records": 50539,
+      "records_by_kind": {
+        "payload": 31707,
+        "recovered_text": 15042,
+        "response": 3790
+      }
+    },
+    "named:user": {
+      "distinct_literal_labels": 58,
+      "occurrences": 4885,
+      "records": 4289,
+      "records_by_kind": {
+        "payload": 2736,
+        "recovered_text": 1296,
+        "response": 257
+      }
+    },
+    "redacted:aws_auth_value": {
+      "distinct_literal_labels": 8,
+      "occurrences": 93,
+      "records": 51,
+      "records_by_kind": {
+        "payload": 3,
+        "recovered_text": 26,
+        "response": 22
+      }
+    },
+    "redacted:basic_auth": {
+      "distinct_literal_labels": 1,
+      "occurrences": 16,
+      "records": 16,
+      "records_by_kind": {
+        "payload": 16,
+        "recovered_text": 0,
+        "response": 0
+      }
+    },
+    "redacted:bearer_token": {
+      "distinct_literal_labels": 40,
+      "occurrences": 316,
+      "records": 307,
+      "records_by_kind": {
+        "payload": 187,
+        "recovered_text": 97,
+        "response": 23
+      }
+    },
+    "redacted:contact": {
+      "distinct_literal_labels": 5,
+      "occurrences": 32,
+      "records": 22,
+      "records_by_kind": {
+        "payload": 13,
+        "recovered_text": 8,
+        "response": 1
+      }
+    },
+    "redacted:destination": {
+      "distinct_literal_labels": 28086,
+      "occurrences": 116646,
+      "records": 77030,
+      "records_by_kind": {
+        "payload": 38698,
+        "recovered_text": 28892,
+        "response": 9440
+      }
+    },
+    "redacted:hf_repo": {
+      "distinct_literal_labels": 19,
+      "occurrences": 803,
+      "records": 716,
+      "records_by_kind": {
+        "payload": 445,
+        "recovered_text": 217,
+        "response": 54
+      }
+    },
+    "redacted:hf_token": {
+      "distinct_literal_labels": 2,
+      "occurrences": 8,
+      "records": 8,
+      "records_by_kind": {
+        "payload": 0,
+        "recovered_text": 4,
+        "response": 4
+      }
+    },
+    "redacted:jwt": {
+      "distinct_literal_labels": 1,
+      "occurrences": 2,
+      "records": 2,
+      "records_by_kind": {
+        "payload": 0,
+        "recovered_text": 1,
+        "response": 1
+      }
+    },
+    "redacted:jwt_claim_identifier": {
+      "distinct_literal_labels": 86,
+      "occurrences": 3637,
+      "records": 1830,
+      "records_by_kind": {
+        "payload": 1552,
+        "recovered_text": 234,
+        "response": 44
+      }
+    },
+    "redacted:jwt_claim_time": {
+      "distinct_literal_labels": 1387,
+      "occurrences": 4388,
+      "records": 1783,
+      "records_by_kind": {
+        "payload": 1513,
+        "recovered_text": 228,
+        "response": 42
+      }
+    },
+    "redacted:network_address": {
+      "distinct_literal_labels": 337,
+      "occurrences": 1085,
+      "records": 448,
+      "records_by_kind": {
+        "payload": 212,
+        "recovered_text": 203,
+        "response": 33
+      }
+    },
+    "redacted:opaque_encoded_blob": {
+      "distinct_literal_labels": 1381,
+      "occurrences": 3703,
+      "records": 3234,
+      "records_by_kind": {
+        "payload": 1168,
+        "recovered_text": 1566,
+        "response": 500
+      }
+    },
+    "redacted:opaque_fragment": {
+      "distinct_literal_labels": 20339,
+      "occurrences": 31820,
+      "records": 25203,
+      "records_by_kind": {
+        "payload": 15882,
+        "recovered_text": 9025,
+        "response": 296
+      }
+    },
+    "redacted:opaque_hex_bytes": {
+      "distinct_literal_labels": 14,
+      "occurrences": 32,
+      "records": 16,
+      "records_by_kind": {
+        "payload": 7,
+        "recovered_text": 7,
+        "response": 2
+      }
+    },
+    "redacted:opaque_marker_tail": {
+      "distinct_literal_labels": 1498,
+      "occurrences": 29793,
+      "records": 24777,
+      "records_by_kind": {
+        "payload": 18870,
+        "recovered_text": 3054,
+        "response": 2853
+      }
+    },
+    "redacted:opaque_numeric_bytes": {
+      "distinct_literal_labels": 37,
+      "occurrences": 161,
+      "records": 134,
+      "records_by_kind": {
+        "payload": 79,
+        "recovered_text": 34,
+        "response": 21
+      }
+    },
+    "redacted:partial_repo_name": {
+      "distinct_literal_labels": 29,
+      "occurrences": 438,
+      "records": 370,
+      "records_by_kind": {
+        "payload": 128,
+        "recovered_text": 166,
+        "response": 76
+      }
+    },
+    "redacted:password_value": {
+      "distinct_literal_labels": 1,
+      "occurrences": 3,
+      "records": 3,
+      "records_by_kind": {
+        "payload": 1,
+        "recovered_text": 1,
+        "response": 1
+      }
+    },
+    "redacted:private_host": {
+      "distinct_literal_labels": 11,
+      "occurrences": 24,
+      "records": 24,
+      "records_by_kind": {
+        "payload": 8,
+        "recovered_text": 16,
+        "response": 0
+      }
+    },
+    "redacted:query_value": {
+      "distinct_literal_labels": 1278,
+      "occurrences": 10150,
+      "records": 9472,
+      "records_by_kind": {
+        "payload": 5544,
+        "recovered_text": 2620,
+        "response": 1308
+      }
+    },
+    "redacted:repo_locator": {
+      "distinct_literal_labels": 162,
+      "occurrences": 431,
+      "records": 398,
+      "records_by_kind": {
+        "payload": 266,
+        "recovered_text": 98,
+        "response": 34
+      }
+    },
+    "redacted:runtime_identifier": {
+      "distinct_literal_labels": 168,
+      "occurrences": 9430,
+      "records": 8913,
+      "records_by_kind": {
+        "payload": 4292,
+        "recovered_text": 4179,
+        "response": 442
+      }
+    },
+    "redacted:secret_key": {
+      "distinct_literal_labels": 372,
+      "occurrences": 3336,
+      "records": 3084,
+      "records_by_kind": {
+        "payload": 2009,
+        "recovered_text": 808,
+        "response": 267
+      }
+    },
+    "redacted:secret_suffix": {
+      "distinct_literal_labels": 1,
+      "occurrences": 1,
+      "records": 1,
+      "records_by_kind": {
+        "payload": 1,
+        "recovered_text": 0,
+        "response": 0
+      }
+    },
+    "redacted:sensitive_profile": {
+      "distinct_literal_labels": 15,
+      "occurrences": 143,
+      "records": 75,
+      "records_by_kind": {
+        "payload": 41,
+        "recovered_text": 22,
+        "response": 12
+      }
+    },
+    "redacted:service_path": {
+      "distinct_literal_labels": 15,
+      "occurrences": 85,
+      "records": 78,
+      "records_by_kind": {
+        "payload": 32,
+        "recovered_text": 44,
+        "response": 2
+      }
+    },
+    "redacted:source_identifier": {
+      "distinct_literal_labels": 9225,
+      "occurrences": 22866,
+      "records": 14857,
+      "records_by_kind": {
+        "payload": 7076,
+        "recovered_text": 6974,
+        "response": 807
+      }
+    },
+    "redacted:source_path": {
+      "distinct_literal_labels": 1311,
+      "occurrences": 14414,
+      "records": 4238,
+      "records_by_kind": {
+        "payload": 2143,
+        "recovered_text": 1706,
+        "response": 389
+      }
+    },
+    "redacted:street_address": {
+      "distinct_literal_labels": 5,
+      "occurrences": 57,
+      "records": 56,
+      "records_by_kind": {
+        "payload": 27,
+        "recovered_text": 20,
+        "response": 9
+      }
+    },
+    "redacted:url_fragment": {
+      "distinct_literal_labels": 2,
+      "occurrences": 81,
+      "records": 81,
+      "records_by_kind": {
+        "payload": 35,
+        "recovered_text": 44,
+        "response": 2
+      }
+    },
+    "redacted:url_userinfo": {
+      "distinct_literal_labels": 1,
+      "occurrences": 6,
+      "records": 6,
+      "records_by_kind": {
+        "payload": 2,
+        "recovered_text": 2,
+        "response": 2
+      }
+    },
+    "redacted:username": {
+      "distinct_literal_labels": 165,
+      "occurrences": 1892,
+      "records": 1618,
+      "records_by_kind": {
+        "payload": 1003,
+        "recovered_text": 495,
+        "response": 120
+      }
+    },
+    "redacted:whoami_name": {
+      "distinct_literal_labels": 50,
+      "occurrences": 643,
+      "records": 49,
+      "records_by_kind": {
+        "payload": 29,
+        "recovered_text": 14,
+        "response": 6
+      }
+    }
+  },
+  "records": 189579,
+  "records_with_nonempty_time_utc": 0,
+  "schema_version": 1,
+  "source": {
+    "compressed_bytes": 15214685,
+    "compressed_sha256": "7b66ab21674de52fcd3f557652f68b1801170c998e2f266862124e6edf283488"
+  }
+}

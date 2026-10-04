@@ -34,6 +34,8 @@ The committed manifests already exist and their runs are complete. Use the analy
 - [Historical results](docs/RESULTS_V1_HISTORICAL.md): original report, explicitly superseded by the errata.
 - [AI Village chain analysis](docs/AI_VILLAGE_CHAINS.md): descriptive proxy counts and hypothetical sensitivity calculations.
 - [AI Village calibration caveats](docs/AI_VILLAGE_CLASSIFIER_VALIDATION.md): development labels are not independent validation.
+- [SwarmTraces evidence-coverage audit](docs/SWARMTRACES_STRUCTURE.md): parent-record structure, missing timestamps, exact-text duplication and redaction-marker denominators; offline, aggregate-only analysis.
+- [Hackathon submission write-up](docs/HACKATHON_SUBMISSION.md): the contribution and limits across all three evidence sources.
 
 The v2 broker is a procedural mechanism. It does not receive the scope oracle. The logger assigns scope after execution. All children receive the same full policy in every v2 arm; therefore these runs cannot test an effect on policy transmission. Declaration versus acknowledgement combines semantic explanation, clause citation and target binding, with different token costs. It does not isolate a psychological mechanism.
 
