@@ -48,6 +48,12 @@ question: **what oversight do you get for free from a control that never reads c
   round-trips cut them only to 0.10 and 0.38. Structure, not delay, carries the effect, and it
   concentrates in the tasks where a chain-length mechanism predicted none. Pooled interaction
   β3 = −1.05 (95% CI −2.18 to +0.08).
+- **The clause is the mechanism.** Ablating the bundle on Sonnet: an exact-target commitment with
+  no clause left violations at 0.18; a clause requirement with the target unchecked took them to
+  0.00 and scoped refusals to 100%. On luna each half does part of the work. Deleting the
+  Charter's "incomplete in scope beats complete out of scope" sentence changed nothing. An officer
+  shown only tool and target, holding no policy, still blocked the out-of-scope calls and a quarter
+  of legitimate ones, because target names carry meaning: that is the boundary of "content-blind".
 - **Norm-laundering is the default.** luna omitted the charter from 83% of 1,089 spawn attempts,
   including on benign tasks, and its helpers did 45% of all out-of-scope actions, including calls
   to real external hosts (`api.mathjs.org`, `emkc.org`). Requiring the charter in the spawn call
