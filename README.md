@@ -1,4 +1,4 @@
-# swarm_friction
+# Swarm Friction: procedural gates and forensic logs for overseeing groups of tool-using AI agents
 
 **Procedural gates and forensic logs for AI agents that use tools.** A research prototype built for the AI Swarm Dynamics Hackathon (October 2026) by David Fraile Navarro, Macquarie University.
 
