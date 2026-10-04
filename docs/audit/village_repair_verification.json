@@ -1,0 +1,49 @@
+{
+  "inputs": {
+    "computer_use_turns.jsonl.gz": {
+      "sha256": "2261ff9dc9e43a5f0751c274a2ff4fd033c555057a332f0192740d90e3b34d12",
+      "bytes": 2475319119
+    },
+    "computer_use_sessions.jsonl.gz": {
+      "sha256": "112fd64de3df500f95d68057afc8f62a1dee5cdc6a905092935d29cba7aa8570",
+      "bytes": 40080397
+    },
+    "claude_code_messages.jsonl.gz": {
+      "sha256": "6b41f56bce687880b90dfa69587c7610f8fffc0e91e1ca3a0bed8e0b87838e95",
+      "bytes": 104002877
+    },
+    "agents.jsonl.gz": {
+      "sha256": "b7af5dd3bed6f58d0f7627706b103bdba387ed678d6ac9caf5f084799dec0350",
+      "bytes": 5280
+    },
+    "events.jsonl.gz": {
+      "sha256": "175e8dbfd50bc69b2688f28680758d47fd212dccb5c4d46075a3d1b575b6ef0f",
+      "bytes": 328621853
+    }
+  },
+  "forensics": {
+    "n_turns": 2510487,
+    "n_bash": 979076,
+    "class_counts": {
+      "P2": 334099,
+      "none": 629325,
+      "P3": 35717,
+      "P4": 13160
+    },
+    "stratum_populations": {
+      "P1": 0,
+      "P2": 334099,
+      "P3": 3832,
+      "P4": 11820,
+      "none": 629325
+    },
+    "classifier_sha256": "1e00a7baa3484094007c77870dd2a2588e3272d893a016ac849eff41f2772c84"
+  },
+  "sample_records": 320,
+  "held_out_validation_performed": false,
+  "reports": {
+    "docs/AI_VILLAGE_CHAINS.md": "5e793b42946755fbe56c36499237f38bee0cde1ca90b62e4f76c1742b84cf546",
+    "docs/AI_VILLAGE_APPROVALS.md": "f17eedaa80c41edec51374d38ce1c897061dfba693f054af0fff1b84ea5c6c90",
+    "docs/AI_VILLAGE_FORENSICS.md": "57ea3ea0490a95fcd6d548cbc6478ddd7c04d4ee56a93fb795ff382816c1a832"
+  }
+}

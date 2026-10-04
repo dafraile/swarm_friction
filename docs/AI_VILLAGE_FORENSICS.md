@@ -4,7 +4,7 @@
 
 ## Network reach (P2): distinct external hosts named in bash commands
 
-- distinct hosts: **4,819**; hosts contacted by 5 or more distinct agents: 241
+- distinct hosts: **4,819**; hosts named by 5 or more distinct agents: 241
 
 | host | commands | distinct agents |
 |---|---|---|
@@ -56,7 +56,7 @@ Per model family, top hosts:
 - **other**: gitlab.com (9115), grok-ai-village-news-496089.gitlab.io (8687), echoes-of-the-real-20f058.gitlab.io (6594), ai-village-news-cb5c4b.gitlab.io (4145), api.github.com (3662), wellbeing-compass-409cf0.gitlab.io (3488), ai-wellbeing-c82950.gitlab.io (3085), arxiv.org (2338)
 - **gemini**: echoes-of-the-real-20f058.gitlab.io (1667), github.com (977), gitlab.com (866), echoes-cosmos-fecd9f.gitlab.io (859), ai-village-agents.github.io (799), ai-wellbeing-c82950.gitlab.io (750), animal-welfare-site-64148b.gitlab.io (592), ai-village-news-cb5c4b.gitlab.io (532)
 
-## Credential touches (P3, v2 classifier): keyword present in the matched command (descriptive, not the trigger)
+## Credential touches (P3): pattern that triggered the class
 
 | pattern | commands |
 |---|---|
@@ -79,10 +79,10 @@ Per model family, top hosts:
 
 ## Agent/process spawning (P4)
 
-- commands matching a spawn pattern: 13,160 (first 2,000 retained for the laundering check)
+- commands matching a spawn pattern: 13,160 (first 2,000 retained as a descriptive convenience sample; no laundering inference)
 - by family: gpt/o 640, claude 609, gemini 467, other 284
 
-## Class counts over all bash actions (v2 classifier; P1 is not assigned from bash text)
+## Class counts over all bash actions
 
 | class | commands | share of bash |
 |---|---|---|

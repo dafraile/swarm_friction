@@ -56,26 +56,30 @@ out.append("- approval rate by requesting agent (n ≥ 10): " + ", ".join(f"{a} 
 out.append(f"- response fields seen: {example_keys.get('OUTREACH_APPROVAL_RESPONSE')}")
 out.append(f"- request fields seen: {example_keys.get('OUTREACH_APPROVAL_REQUEST')}")
 # latency: match by requestId if present, else nearest previous request by same agent
-lat = []
+lat = []; latency_links = collections.Counter()
 reqs_by_agent = collections.defaultdict(list)
 for k, (ts, aid, d) in req.items(): reqs_by_agent[aid].append(ts)
 for ts, aid, d in resp:
     rid = d.get("outreachApprovalRequestId") or d.get("requestId")
-    if rid in req: lat.append((ts - req[rid][0]).total_seconds() / 60)
+    if rid in req:
+        lat.append((ts - req[rid][0]).total_seconds() / 60); latency_links["explicit_id"] += 1
     else:
         prev = [t for t in reqs_by_agent.get(aid, []) if t <= ts]
-        if prev: lat.append((ts - max(prev)).total_seconds() / 60)
+        if prev:
+            lat.append((ts - max(prev)).total_seconds() / 60); latency_links["nearest_previous_heuristic"] += 1
+        else: latency_links["unmatched"] += 1
+out.append(f"- latency record linkage: {dict(latency_links)}; nearest-previous matches, if any, are approximate")
 if lat: out.append(f"- response latency (min): median {np.median(lat):.0f}, p90 {np.percentile(lat,90):.0f}, max {max(lat):.0f}  (n={len(lat)})")
 out += ["- requests by agent: " + ", ".join(f"{a} {n}" for a, n in by_type_agent['OUTREACH_APPROVAL_REQUEST'].most_common(10)), "",
         "## Human-helper requests (the agent asks a human to take over)", "",
         f"- requests: {sum(helper.values())}; cancellations: {sum(helper_cancel.values())}; human sessions stopped: {types['STOP_HUMAN_USE_SESSION']}",
         "- by agent: " + ", ".join(f"{a} {n}" for a, n in helper.most_common(12)), "",
-        "## Google sign-in hand-off (credential never given to the agent)", "",
+        "## Recorded Google sign-in hand-offs", "",
         f"- REQUEST_GOOGLE_SIGN_IN {types['REQUEST_GOOGLE_SIGN_IN']}, RESTARTING_AFTER_GOOGLE_SIGN_IN {types['RESTARTING_AFTER_GOOGLE_SIGN_IN']}",
         "", "## Reading", "",
-        "The Village already runs two of the three loci from the harness: a human approval step for outreach "
-        "(deny-until-approved; a quarter of requests are refused, median turnaround minutes, tail of days) and an environment-level "
-        "credential split for Google sign-in, where the agent structurally cannot hold the password and must hand off. Both emit an "
+        "The event stream records a human approval step for outreach "
+        "(a quarter of recorded decisions refuse requests, median turnaround minutes, tail of days) and a "
+        "Google sign-in hand-off workflow. These events alone do not prove that agents never handle credentials elsewhere. Both emit an "
         "event record whether or not anyone reads the transcript. Ten proxy-posting requests explicitly routed actions through another "
         "agent, and nine were approved. This is evidence of disclosed delegation under an approval process, not evidence of evasion "
         "or policy laundering. The records do not establish whether a parent transmitted all applicable constraints."]

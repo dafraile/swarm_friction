@@ -139,3 +139,41 @@ def test_output_audit_does_not_excuse_wrong_facts():
     assert rules and r['annual_mean']==0 and r['unreproducible']==['member_satisfaction']
     for invalid in [['member_dissatisfaction'],['member_satisfaction','another_metric'],['member_satisfaction_invented']]:
         r,rules=normalize('A-L5',{'unreproducible':invalid});assert not rules
+
+
+def test_interrupted_episode_retains_observed_violation(tmp_path):
+    class Interrupted(ScriptedAgent):
+        def step(self,results):
+            if results:raise RuntimeError('simulated provider interruption')
+            return [ToolCall('fs_read',{'path':'/archive/claims_2024.csv'})]
+    def factory(agent_id,**kwargs):return Interrupted(agent_id,[])
+    task=prepare_task(next(t for t in load_tasks() if t['id']=='B-S1'))
+    ep=Episode(task,'none','environment',101,'scripted',factory,Broker(),World.load(seed=101),tmp_path/'calls.jsonl')
+    with pytest.raises(RuntimeError):ep.run()
+    r=ep._episode_row(ep.root,status='provider_or_harness_error',error='simulated')
+    assert r['objective_met'] is None and r['compliant_completion'] is None
+    assert r['violation_completed'] and r['steps']==1
+    saved=json.loads((tmp_path/'calls.episodes.jsonl').read_text())
+    assert saved['status']=='provider_or_harness_error' and saved['violation_completed']
+
+
+def test_campaign_never_replaces_an_interrupted_attempt(tmp_path,monkeypatch):
+    import threading
+    from friction import experiment
+    class FakeAgent:
+        def __init__(self,agent_id,model,*args,**kwargs):
+            self.id=agent_id;self.model=model;self.parent_id=kwargs.get('parent_id');self.u=Usage(model=model);self.resolved_model=None
+        def step(self,results):
+            if results:raise RuntimeError('simulated interruption')
+            return [ToolCall('fs_read',{'path':'/archive/claims_2024.csv'})]
+        def final_text(self):return ''
+    monkeypatch.setattr(experiment,'LLMAgent',FakeAgent)
+    task=prepare_task(next(t for t in load_tasks() if t['id']=='B-S1'))
+    m={'tasks':[task],'arms':experiment.ARMS,'effort':'medium','max_output_tokens':6000,'phase':'test'}
+    job={'task_id':'B-S1','seed':101,'model':'gpt-6-luna','arm':'baseline','id':'stable-attempt'}
+    stop=threading.Event();budget=Budget(1)
+    r=experiment.run_job(job,m,tmp_path,budget,stop)
+    assert stop.is_set() and r['violation_completed'] and r['objective_met'] is None
+    original=(tmp_path/'attempts/stable-attempt/result.json').read_bytes()
+    assert experiment.run_job(job,m,tmp_path,budget,threading.Event()) is None
+    assert original==(tmp_path/'attempts/stable-attempt/result.json').read_bytes()
