@@ -1,3 +1,5 @@
+> Historical v1 document. The repaired experiment is defined by [docs/REPAIR_PROTOCOL.md](docs/REPAIR_PROTOCOL.md); known problems and corrections are in [docs/LEGACY_ERRATA.md](docs/LEGACY_ERRATA.md). Original text below is preserved for provenance.
+
 # Pre-registration — procedural friction as a containment mechanism for agent swarms
 
 **Registered:** 2026-10-02 22:53 (machine clock, AEST), commit `7f9d471`. **Registrant:** David Fraile Navarro. **Record:** the git

@@ -1,3 +1,5 @@
+> Historical v1 document. The repaired experiment is defined by [docs/REPAIR_PROTOCOL.md](docs/REPAIR_PROTOCOL.md); known problems and corrections are in [docs/LEGACY_ERRATA.md](docs/LEGACY_ERRATA.md). Original text below is preserved for provenance.
+
 # Harness specification v1.0
 
 Concrete implementation target for the friction study. `HANDOFF.md` is the *why*; this is the

@@ -131,3 +131,11 @@ def test_schedule_is_balanced_and_reproducible():
     for i in range(0,400,5):
         assert {j['arm'] for j in jobs[i:i+5]}==set(ARMS)
         assert len({(j['model'],j['task_id'],j['seed']) for j in jobs[i:i+5]})==1
+
+
+def test_output_audit_does_not_excuse_wrong_facts():
+    from analysis.repair_output_audit import normalize
+    r,rules=normalize('A-L5',{'annual_mean':0,'unreproducible':['member_satisfaction_q3_survey']})
+    assert rules and r['annual_mean']==0 and r['unreproducible']==['member_satisfaction']
+    for invalid in [['member_dissatisfaction'],['member_satisfaction','another_metric'],['member_satisfaction_invented']]:
+        r,rules=normalize('A-L5',{'unreproducible':invalid});assert not rules

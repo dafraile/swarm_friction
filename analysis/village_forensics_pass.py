@@ -5,7 +5,7 @@ for classifier validation (analysis/validate_classifier.py). Writes data/ai_vill
 (gitignored) and docs/AI_VILLAGE_FORENSICS.md.
 """
 from __future__ import annotations
-import collections, gzip, json, random, re, sys
+import collections, gzip, json, random, re, sys, hashlib
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ai_village_chains import classify_bash, rows, NET_RE
@@ -32,10 +32,12 @@ for t in rows(DATA / "computer_use_turns.jsonl.gz"):
     for c in (cls or {"none"}):
         cls_counts[c] += 1
     seen[key] += 1  # reservoir, 80 per stratum
-    if len(sample[key]) < 80: sample[key].append(cmd[:600])
+    record = {"command": cmd, "command_sha256": hashlib.sha256(cmd.encode()).hexdigest(),
+              "source_turn_id": t.get("id"), "source_turn_ordinal": n_turns, "session_id": t["session_id"], "stratum": key}
+    if len(sample[key]) < 80: sample[key].append(record)
     else:
         j = rng.randrange(seen[key]);
-        if j < 80: sample[key][j] = cmd[:600]
+        if j < 80: sample[key][j] = record
     if "P2" in cls:
         for h in set(m.lower() for m in HOST_RE.findall(cmd)):
             hosts[h] += 1; hosts_fam[fam(aid)][h] += 1; host_agents[h].add(aid)
@@ -44,14 +46,14 @@ for t in rows(DATA / "computer_use_turns.jsonl.gz"):
         cred_cmds[m.group(1).lower() if m else "other"] += 1
     if "P4" in cls and len(spawn_cmds) < 2000:
         spawn_cmds.append({"family": fam(aid), "cmd": cmd[:800]})
-json.dump({"sample": sample, "hosts": hosts.most_common(500), "hosts_by_family": {f: c.most_common(60) for f, c in hosts_fam.items()},
+json.dump({"schema_version": 2, "sample_records": sample, "stratum_populations": seen, "classifier_sha256": hashlib.sha256(Path(__file__).with_name("ai_village_chains.py").read_bytes()).hexdigest(), "hosts": hosts.most_common(500), "hosts_by_family": {f: c.most_common(60) for f, c in hosts_fam.items()},
            "host_agent_counts": {h: len(a) for h, a in host_agents.items()}, "cred_patterns": cred_cmds.most_common(), "spawn_cmds": spawn_cmds,
            "n_turns": n_turns, "n_bash": n_bash, "class_counts": dict(cls_counts)}, open(OUT / "forensics.json", "w"))
 md = ["# What a content-blind gate would have seen in the AI Village", "",
       f"*Aggregate inventory from `analysis/village_forensics_pass.py` over {n_turns:,} computer-use turns ({n_bash:,} bash actions). "
       "No session text is reproduced beyond hostnames and credential-pattern keywords. Dataset: AI Digest, AI Village, research terms.*", "",
       "## Network reach (P2): distinct external hosts named in bash commands", "",
-      f"- distinct hosts: **{len(hosts):,}**; hosts contacted by 5 or more distinct agents: {sum(1 for h,a in host_agents.items() if len(a)>=5):,}",
+      f"- distinct hosts: **{len(hosts):,}**; hosts named by 5 or more distinct agents: {sum(1 for h,a in host_agents.items() if len(a)>=5):,}",
       "", "| host | commands | distinct agents |", "|---|---|---|"]
 md += [f"| {h} | {n:,} | {len(host_agents[h])} |" for h, n in hosts.most_common(40)]
 md += ["", "Per model family, top hosts:", ""]
@@ -59,7 +61,7 @@ for f, c in hosts_fam.items():
     md.append(f"- **{f}**: " + ", ".join(f"{h} ({n})" for h, n in c.most_common(8)))
 md += ["", "## Credential touches (P3): pattern that triggered the class", "", "| pattern | commands |", "|---|---|"]
 md += [f"| `{p}` | {n:,} |" for p, n in cred_cmds.most_common(25)]
-md += ["", "## Agent/process spawning (P4)", "", f"- commands matching a spawn pattern: {cls_counts['P4']:,} (first 2,000 retained for the laundering check)",
+md += ["", "## Agent/process spawning (P4)", "", f"- commands matching a spawn pattern: {cls_counts['P4']:,} (first 2,000 retained as a descriptive convenience sample; no laundering inference)",
        "- by family: " + ", ".join(f"{f} {n}" for f, n in collections.Counter(s['family'] for s in spawn_cmds).most_common()), "",
        "## Class counts over all bash actions", "", "| class | commands | share of bash |", "|---|---|---|"]
 md += [f"| {c} | {cls_counts[c]:,} | {cls_counts[c]/max(n_bash,1):.1%} |" for c in ("P1", "P2", "P3", "P4", "none")]

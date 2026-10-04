@@ -76,7 +76,7 @@ out += ["- requests by agent: " + ", ".join(f"{a} {n}" for a, n in by_type_agent
         "The Village already runs two of the three loci from the harness: a human approval step for outreach "
         "(deny-until-approved; a quarter of requests are refused, median turnaround minutes, tail of days) and an environment-level "
         "credential split for Google sign-in, where the agent structurally cannot hold the password and must hand off. Both emit an "
-        "event record whether or not anyone reads the transcript. The proxy-posting requests are delegation laundering in the wild: "
-        "an agent that lacks a credential routes the action through an agent that holds one, which is the Charter §6 pattern the "
-        "harness measures as `laundering`. Here the approval step sees it only because the requester said so in the rationale."]
+        "event record whether or not anyone reads the transcript. Ten proxy-posting requests explicitly routed actions through another "
+        "agent, and nine were approved. This is evidence of disclosed delegation under an approval process, not evidence of evasion "
+        "or policy laundering. The records do not establish whether a parent transmitted all applicable constraints."]
 Path("docs/AI_VILLAGE_APPROVALS.md").write_text("\n".join(out) + "\n"); print("\n".join(out))
